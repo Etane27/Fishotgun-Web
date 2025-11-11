@@ -1,0 +1,27 @@
+# Fichiers systèmes
+.DS_Store
+Thumbs.db
+
+# Dépendances Node
+node_modules/
+npm-debug.log*
+yarn-error.log*
+package-lock.json
+
+# Build / dist
+dist/
+build/
+.cache/
+
+# Environnements
+.env
+.env.local
+.env.*.local
+
+# IDE / Éditeurs
+.vscode/
+.idea/
+*.swp
+
+# Autres
+*.log

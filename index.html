@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fishotgun</title>
+
+  <!-- Tailwind (à ajouter auto au passage de NextJS)-->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-zinc-100 text-zinc-900">
+
+  <!-- HEADER NAV (modif - > boutons à droite ) -->
+  <header class="sticky top-0 z-50 bg-zinc-100/80 backdrop-blur border-b border-zinc-200">
+    <div class="mx-auto max-w-6xl px-4 md:px-8 py-3 flex justify-end">
+      <nav class="flex flex-wrap gap-2">
+        <a href="#rabbit-hole"
+          class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 shadow-sm transition hover:bg-zinc-50">
+          Rabbit Hole
+        </a>
+        <a href="#dev-team"
+          class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 shadow-sm transition hover:bg-zinc-50">
+          Dev Team
+        </a>
+        <a href="#roadmap"
+          class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 shadow-sm transition hover:bg-zinc-50">
+          Roadmap
+        </a>
+        <a href="/login.html"
+          class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 shadow-sm transition hover:bg-zinc-50">
+          Login
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Bandeau -->
+  <section class="w-full bg-zinc-100 pb-24">
+    <!-- HERO -->
+    <div class="relative mx-auto h-[420px] w-full max-w-6xl overflow-hidden rounded-2xl">
+      <!-- Background image -->
+      <img src="/assets/header1.png" alt="Fishotgun landscape" class="absolute inset-0 h-full w-full object-cover" />
+
+      <!-- Overlay gradient jsp si c'est mieux pour l'instant  -->
+      <div class="absolute inset-0 bg-gradient-to-t from-zinc-100/90 via-zinc-100/20 to-transparent"></div>
+
+      <!-- rendre la vignette plus subtile  -->
+      <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-transparent"></div>
+    </div>
+
+    <!-- ça c'est la partie sous le Hero -->
+    <div class="mx-auto mt-8 max-w-6xl px-4 md:px-8">
+      <!-- “Glass” content wrapper -->
+      <div class="rounded-2xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur">
+        <div class="flex flex-col gap-10 md:flex-row md:items-start">
+          <!-- CARTE -->
+          <article class="w-full md:w-[380px] md:-mt-[140px]">
+            <div class="flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+              <!-- Image de la carte -->
+              <div class="relative w-full h-[320px] bg-zinc-100">
+                <img src="/assets/fishotgun-cover.png" alt=" Fishotgun cover"
+                  class="absolute inset-0 h-full w-full object-cover" />
+              </div>
+
+              <!-- Bloc titre -->
+              <div class="border-t border-zinc-200 bg-zinc-50 px-5 pt-4 pb-3">
+                <h2 class="text-2xl font-extrabold leading-tight tracking-tight">
+                  Fishotgun
+                </h2>
+                <p class="mt-1 text-xs font-medium text-zinc-600">
+                  By Rabbit Hole
+                </p>
+              </div>
+
+              <!-- bouton Download (pas fonctionel pour l'instant )-->
+              <div class="px-5 pt-4 pb-6">
+                <a href="/download.html"
+                  class="flex w-full items-center justify-center gap-2 rounded-full bg-zinc-900 px-4 py-3 text-sm font-medium text-white shadow-sm transition active:scale-[0.99] hover:bg-zinc-800">
+                  <span class="text-lg">⬇</span>
+                  <span>Download</span>
+                </a>
+
+                <p class="mt-3 text-center text-xs text-zinc-500">
+                  download unvaillable. stay tuned for now
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <!-- DESCRIPTION -->
+          <section id="description" class="flex-1 text-zinc-700">
+            <h2 class="mb-4 text-3xl font-bold tracking-tight text-zinc-900">
+              Description
+            </h2>
+
+            <div class="max-w-prose text-base leading-relaxed">
+              <p class="mb-6">
+                <strong class="text-zinc-900">Fishotgun</strong> simulates a multiplayer (or solo)
+                fishing experience set in a colorful and innocent-looking world.
+                However, the player isn't equipped with a fishing rod —
+                instead, they'll have to use a shotgun to shoot fishes before
+                collecting them and adding them to a growing collection.
+              </p>
+
+              <p class="mb-6">
+                Fishotgun is also a social experience. Through public lobbies and
+                a text chat system, players can easily talk to each other between
+                two shotgun blasts.
+              </p>
+
+              <div class="mb-2 rounded-xl border border-zinc-200 bg-white px-4 py-3">
+                <p class="font-medium text-zinc-900">
+                  Collect fishes based on their class and rarity — and join your friends in Fishotgun!
+                </p>
+              </div>
+
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUTRES SECTIONS (ancres) -->
+  <main class="mx-auto max-w-6xl px-4 md:px-8">
+    <!-- Rabbit Hole -->
+    <section id="rabbit-hole" class="mt-14 rounded-2xl bg-white p-6 shadow-sm border border-zinc-200">
+      <h2 class="text-2xl font-bold tracking-tight">Rabbit Hole</h2>
+      <p class="mt-3 max-w-prose text-zinc-700 leading-relaxed">
+        Rabbit Hole is a small team made up of students from EPITA. Its name refers
+        to an endless fall into digital darkness — just like a rabbit hole.
+      </p>
+    </section>
+
+    <!-- Dev Team -->
+    <section id="dev-team" class="mt-8 rounded-2xl bg-white p-6 shadow-sm border border-zinc-200">
+      <h2 class="text-2xl font-bold tracking-tight">Dev Team</h2>
+      <p class="mt-3 max-w-prose text-zinc-700 leading-relaxed">
+        Add a short paragraph about your team, roles, and what each person touches
+        (code, art, sound, design). Keep it short and readable.
+      </p>
+    </section>
+
+    <!-- Roadmap -->
+    <section id="roadmap" class="mt-8 rounded-2xl bg-white p-6 shadow-sm border border-zinc-200">
+      <h2 class="text-2xl font-bold tracking-tight">Roadmap</h2>
+      <ul class="mt-4 space-y-3 text-zinc-700">
+        <li class="flex gap-3">
+          <span class="mt-1 inline-block h-2 w-2 rounded-full bg-zinc-400"></span>
+          <span><strong class="text-zinc-900">v0.1</strong> — jeu en cours 🚧.</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="mt-1 inline-block h-2 w-2 rounded-full bg-zinc-400"></span>
+          <span><strong class="text-zinc-900">v0.2</strong> — 🚧.</span>
+        </li>
+        <li class="flex gap-3">
+          <span class="mt-1 inline-block h-2 w-2 rounded-full bg-zinc-400"></span>
+          <span><strong class="text-zinc-900">v1.0</strong> — 🚧</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-14 mb-10 text-sm text-zinc-500">
+      <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        <p>© <span id="year"></span> Fishotgun — Rabbit Hole</p>
+        <div class="flex gap-4">
+          <a class="hover:text-zinc-700" href="#">Discord le discord communautaire</a>
+          <a class="hover:text-zinc-700" href="#">Itch.io (en gros c'est le site ou on pourrait balancer le jeu </a>
+          <a class="hover:text-zinc-700" href="#">Steam ( voyons gros) </a>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // année automatique 
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+
+</html>

@@ -1,121 +1,234 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Fishotgun</title>
+  <meta name="description" content="Fishotgun is a cozy-chaotic multiplayer fishing game where the rod is replaced by a shotgun." />
 
-  <!-- Tailwind (à ajouter auto au passage de NextJS)-->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            meadow: {
+              50: "#f4f8ef",
+              100: "#e6f0d9",
+              200: "#cdddb2",
+              300: "#b0c98b",
+              400: "#8fb56a",
+              500: "#6f9851",
+              600: "#597b42"
+            },
+            pond: {
+              50: "#f1f8fb",
+              100: "#d8edf6",
+              200: "#b8dcea",
+              300: "#90c7dd",
+              400: "#68b0cd",
+              500: "#4e96b3"
+            },
+            cream: "#fff9ef",
+            bark: "#5e4a35"
+          },
+          boxShadow: {
+            cozy: "0 16px 40px rgba(90, 119, 83, 0.12)",
+            card: "0 12px 24px rgba(76, 92, 83, 0.10)"
+          },
+          fontFamily: {
+            display: ["Baloo 2", "Trebuchet MS", "sans-serif"],
+            body: ["Nunito", "Verdana", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
 </head>
 
-<body class="bg-zinc-100 text-zinc-900">
+<body class="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(217,240,246,0.95),_rgba(255,249,239,1)_45%,_rgba(241,248,251,1)_100%)] font-body text-bark">
 
-  <!-- HEADER NAV (modif - > boutons à droite ) -->
-  <header class="sticky top-0 z-50 bg-zinc-100/80 backdrop-blur border-b border-zinc-200">
-    <div class="mx-auto max-w-6xl px-4 md:px-8 py-3 flex justify-end">
-      <nav class="flex flex-wrap gap-2">
-        <a href="#rabbit-hole"
-          class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 shadow-sm transition hover:bg-zinc-50">
-          Rabbit Hole
+  <audio id="background-music" loop preload="auto" autoplay>
+    <source src="/assets/maintheme_background.mp3" type="audio/mpeg" />
+  </audio>
+
+  <button id="music-toggle" type="button" aria-pressed="false" aria-label="Toggle background music"
+    class="group fixed bottom-5 left-5 z-50 h-32 w-32 focus:outline-none md:bottom-7 md:left-7 md:h-36 md:w-36">
+    <span
+      class="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-cream/95 via-white/75 to-pond-100/85 shadow-[0_24px_45px_rgba(76,92,83,0.24)] ring-1 ring-white/70 backdrop-blur-xl transition duration-300 group-hover:-translate-y-1"></span>
+
+    <span
+      class="absolute left-3 top-4 h-24 w-24 rounded-full bg-[radial-gradient(circle_at_center,_#5b4a3b_0,_#111214_22%,_#0e0f10_48%,_#18191b_60%,_#090909_100%)] shadow-[inset_0_0_0_2px_rgba(255,255,255,0.06),0_8px_18px_rgba(0,0,0,0.28)] transition duration-300 group-hover:scale-90 group-hover:opacity-0 md:left-4 md:top-5 md:h-26 md:w-26"></span>
+    <span
+      class="pointer-events-none absolute left-[22px] top-[26px] h-[62px] w-[62px] rounded-full border border-white/10 transition duration-300 group-hover:scale-90 group-hover:opacity-0 md:left-[30px] md:top-[34px] md:h-[68px] md:w-[68px]"></span>
+    <span
+      class="pointer-events-none absolute left-[29px] top-[33px] h-[48px] w-[48px] rounded-full border border-white/10 transition duration-300 group-hover:scale-90 group-hover:opacity-0 md:left-[40px] md:top-[44px] md:h-[50px] md:w-[50px]"></span>
+    <span
+      class="pointer-events-none absolute left-[38px] top-[42px] h-[30px] w-[30px] rounded-full bg-[radial-gradient(circle,_#f8f3e7_0,_#d6edf6_55%,_#7cae6c_100%)] ring-4 ring-bark/90 transition duration-300 group-hover:scale-90 group-hover:opacity-0 md:left-[50px] md:top-[54px]"></span>
+    <span id="music-record"
+      class="pointer-events-none absolute left-3 top-4 h-24 w-24 rounded-full transition duration-300 group-hover:scale-90 group-hover:opacity-0 before:absolute before:left-1/2 before:top-[9px] before:h-5 before:w-1 before:-translate-x-1/2 before:rounded-full before:bg-white/35 md:left-4 md:top-5 md:h-26 md:w-26 md:before:top-[10px]"></span>
+
+    <span class="pointer-events-none absolute left-[86px] top-3 h-5 w-5 rounded-full bg-bark shadow-sm transition duration-300 group-hover:opacity-0 md:left-[98px] md:top-4"></span>
+    <span id="tonearm"
+      class="pointer-events-none absolute left-[94px] top-[24px] h-1.5 w-11 origin-left rounded-full bg-gradient-to-r from-slate-300 via-slate-200 to-slate-500 shadow-sm transition-all duration-300 group-hover:opacity-0 md:left-[106px] md:top-[29px] md:w-12"></span>
+    <span
+      class="pointer-events-none absolute left-[132px] top-[21px] h-3 w-3 rounded-sm bg-slate-400 shadow-sm transition duration-300 group-hover:opacity-0 md:left-[146px] md:top-[26px]"></span>
+
+    <span
+      class="pointer-events-none absolute inset-[12px] translate-y-2 rounded-[1.35rem] border border-white/75 bg-gradient-to-br from-cream via-white to-meadow-50 p-2 opacity-0 shadow-card transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 md:inset-[14px]">
+      <span class="flex h-full w-full items-center justify-center overflow-hidden rounded-[1rem] bg-white shadow-inner">
+        <img src="/assets/logo.png" alt="Fishotgun soundtrack cover" class="h-full w-full object-cover" />
+      </span>
+    </span>
+
+    <span
+      class="pointer-events-none absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-bark/80 px-3 py-1 text-[10px] font-extrabold uppercase tracking-[0.22em] text-cream shadow-sm backdrop-blur-sm md:text-[11px]">
+      Now Playing
+    </span>
+
+    <span
+      class="pointer-events-none absolute left-[104px] top-2 translate-x-2 rounded-2xl bg-bark px-3 py-2 text-left opacity-0 shadow-lg transition duration-300 group-hover:translate-x-0 group-hover:opacity-100 md:left-[118px]">
+      <span class="absolute -left-2 top-4 h-4 w-4 rotate-45 rounded-sm bg-bark"></span>
+      <span class="block text-[10px] font-extrabold uppercase tracking-[0.18em] text-cream/70">Now Playing</span>
+      <span class="mt-1 block whitespace-nowrap font-display text-lg font-bold leading-none text-cream">Fishotgun Main Theme</span>
+    </span>
+  </button>
+
+  <div class="fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute -left-16 top-24 h-52 w-52 rounded-full bg-meadow-100/70 blur-3xl"></div>
+    <div class="absolute right-0 top-0 h-72 w-72 rounded-full bg-pond-100/80 blur-3xl"></div>
+    <div class="absolute bottom-10 left-1/3 h-64 w-64 rounded-full bg-meadow-50 blur-3xl"></div>
+  </div>
+
+  <header class="sticky top-0 z-50 border-b border-white/60 bg-cream/70 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-8">
+      <a href="#top" class="font-display text-2xl font-extrabold tracking-tight text-meadow-600">Fishotgun</a>
+      <div class="flex flex-wrap items-center justify-end gap-2">
+        <div class="flex items-center gap-1 rounded-full border border-white/80 bg-white/75 p-1 shadow-sm">
+          <button id="lang-en" type="button"
+            class="rounded-full bg-meadow-400 px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.18em] text-white transition">
+            EN
+          </button>
+          <button id="lang-fr" type="button"
+            class="rounded-full px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.18em] text-bark/65 transition hover:bg-white">
+            FR
+          </button>
+        </div>
+        <nav class="flex flex-wrap gap-2">
+        <a href="#about"
+          class="rounded-full border border-white/80 bg-white/80 px-4 py-2 text-sm font-bold text-bark shadow-sm transition hover:-translate-y-0.5 hover:bg-white">
+          <span data-i18n="navAbout">About</span>
         </a>
-        <a href="#dev-team"
-          class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 shadow-sm transition hover:bg-zinc-50">
-          Dev Team
+        <a href="#gallery"
+          class="rounded-full border border-white/80 bg-white/80 px-4 py-2 text-sm font-bold text-bark shadow-sm transition hover:-translate-y-0.5 hover:bg-white">
+          <span data-i18n="navGallery">Gallery</span>
+        </a>
+        <a href="#team"
+          class="rounded-full border border-white/80 bg-white/80 px-4 py-2 text-sm font-bold text-bark shadow-sm transition hover:-translate-y-0.5 hover:bg-white">
+          <span data-i18n="navTeam">Team</span>
         </a>
         <a href="#roadmap"
-          class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 shadow-sm transition hover:bg-zinc-50">
-          Roadmap
+          class="rounded-full border border-white/80 bg-white/80 px-4 py-2 text-sm font-bold text-bark shadow-sm transition hover:-translate-y-0.5 hover:bg-white">
+          <span data-i18n="navRoadmap">Roadmap</span>
         </a>
         <a href="/login.html"
-          class="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm text-zinc-700 shadow-sm transition hover:bg-zinc-50">
-          Login
+          class="rounded-full border border-meadow-400 bg-meadow-400 px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-meadow-500">
+          <span data-i18n="navLogin">Login</span>
         </a>
-      </nav>
+        </nav>
+      </div>
     </div>
   </header>
 
-  <!-- Bandeau -->
-  <section class="w-full bg-zinc-100 pb-24">
-    <!-- HERO -->
-    <div class="relative mx-auto h-[420px] w-full max-w-6xl overflow-hidden rounded-2xl">
-      <!-- Background image -->
-      <img src="/assets/header1.png" alt="Fishotgun landscape" class="absolute inset-0 h-full w-full object-cover" />
+  <section id="top" class="w-full pb-20 pt-6">
+    <div class="mx-auto max-w-6xl px-4 md:px-8">
+      <div class="relative h-[430px] overflow-hidden rounded-[2rem] border border-white/70 shadow-cozy md:h-[500px]">
+        <img src="/assets/banner_rendu.png" alt="Fishotgun banner"
+          class="absolute inset-0 h-full w-full object-cover object-top" />
+        <div class="absolute inset-0 bg-gradient-to-t from-cream via-cream/20 to-transparent"></div>
+        <div class="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.32),transparent_35%,rgba(201,227,213,0.18)_75%,rgba(255,255,255,0.18))]"></div>
 
-      <!-- Overlay gradient jsp si c'est mieux pour l'instant  -->
-      <div class="absolute inset-0 bg-gradient-to-t from-zinc-100/90 via-zinc-100/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-5 md:p-8">
+          <div class="max-w-2xl rounded-[2rem] border border-white/70 bg-cream/78 p-6 shadow-card backdrop-blur-md md:p-8">
+            <p class="text-xs font-extrabold uppercase tracking-[0.35em] text-meadow-600" data-i18n="heroEyebrow">Rabbit Hole Presents</p>
+            <h1 class="mt-3 font-display text-5xl font-extrabold leading-none text-bark md:text-7xl">Fishotgun</h1>
+            <p class="mt-4 max-w-xl text-base font-semibold leading-relaxed text-bark/80 md:text-lg" data-i18n="heroBody">
+              A cozy-chaotic multiplayer fishing game where the pond looks peaceful,
+              the world feels playful, and your best fishing tool is somehow a shotgun.
+            </p>
+          </div>
+        </div>
+      </div>
 
-      <!-- rendre la vignette plus subtile  -->
-      <div class="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-transparent"></div>
-    </div>
-
-    <!-- ça c'est la partie sous le Hero -->
-    <div class="mx-auto mt-8 max-w-6xl px-4 md:px-8">
-      <!-- “Glass” content wrapper -->
-      <div class="rounded-2xl border border-zinc-200 bg-white/70 p-6 shadow-sm backdrop-blur">
-        <div class="flex flex-col gap-10 md:flex-row md:items-start">
-          <!-- CARTE -->
-          <article class="w-full md:w-[380px] md:-mt-[140px]">
-            <div class="flex flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
-              <!-- Image de la carte -->
-              <div class="relative w-full h-[320px] bg-zinc-100">
-                <img src="/assets/fishotgun-cover.png" alt=" Fishotgun cover"
+      <div class="mt-8 rounded-[2rem] border border-white/70 bg-white/70 p-5 shadow-cozy backdrop-blur-xl md:p-7">
+        <div class="flex flex-col gap-8 lg:flex-row lg:items-start">
+          <article class="w-full lg:-mt-20 lg:w-[320px] xl:w-[340px]">
+            <div class="overflow-hidden rounded-[2rem] border border-white/80 bg-cream shadow-card">
+              <div class="relative h-[235px] w-full bg-meadow-50">
+                <img src="/assets/fishotgun-cover.png" alt="Fishotgun cover art"
                   class="absolute inset-0 h-full w-full object-cover" />
               </div>
 
-              <!-- Bloc titre -->
-              <div class="border-t border-zinc-200 bg-zinc-50 px-5 pt-4 pb-3">
-                <h2 class="text-2xl font-extrabold leading-tight tracking-tight">
-                  Fishotgun
-                </h2>
-                <p class="mt-1 text-xs font-medium text-zinc-600">
-                  By Rabbit Hole
-                </p>
+              <div class="border-t border-meadow-100 bg-white/75 px-5 pb-3 pt-4">
+                <h2 class="font-display text-3xl font-extrabold leading-none text-bark">Fishotgun</h2>
+                <p class="mt-1 text-sm font-bold text-bark/60" data-i18n="cardBy">By Rabbit Hole</p>
               </div>
 
-              <!-- bouton Download (pas fonctionel pour l'instant )-->
-              <div class="px-5 pt-4 pb-6">
+              <div class="px-5 pb-6 pt-4">
                 <a href="/download.html"
-                  class="flex w-full items-center justify-center gap-2 rounded-full bg-zinc-900 px-4 py-3 text-sm font-medium text-white shadow-sm transition active:scale-[0.99] hover:bg-zinc-800">
-                  <span class="text-lg">⬇</span>
-                  <span>Download</span>
+                  class="flex w-full items-center justify-center gap-2 rounded-full bg-meadow-500 px-4 py-3 text-sm font-extrabold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-meadow-600 active:scale-[0.99]">
+                  <span class="text-lg" aria-hidden="true">&darr;</span>
+                  <span data-i18n="download">Download</span>
                 </a>
 
-                <p class="mt-3 text-center text-xs text-zinc-500">
-                  download unvaillable. stay tuned for now
+                <p class="mt-3 text-center text-xs font-bold uppercase tracking-[0.16em] text-bark/45" data-i18n="downloadUnavailable">
+                  Download unavailable for now
                 </p>
               </div>
             </div>
           </article>
 
-          <!-- DESCRIPTION -->
-          <section id="description" class="flex-1 text-zinc-700">
-            <h2 class="mb-4 text-3xl font-bold tracking-tight text-zinc-900">
-              Description
+          <section id="about" class="flex-1">
+            <div class="inline-flex rounded-full border border-meadow-100 bg-meadow-50 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.25em] text-meadow-600" data-i18n="aboutEyebrow">
+              About The Game
+            </div>
+            <h2 class="mt-4 font-display text-4xl font-extrabold tracking-tight text-bark md:text-5xl" data-i18n="aboutTitle">
+              Tiny pond vibes, very questionable fishing methods.
             </h2>
 
-            <div class="max-w-prose text-base leading-relaxed">
-              <p class="mb-6">
-                <strong class="text-zinc-900">Fishotgun</strong> simulates a multiplayer (or solo)
-                fishing experience set in a colorful and innocent-looking world.
-                However, the player isn't equipped with a fishing rod —
-                instead, they'll have to use a shotgun to shoot fishes before
-                collecting them and adding them to a growing collection.
+            <div class="mt-5 max-w-2xl space-y-5 text-base font-semibold leading-relaxed text-bark/80">
+              <p data-i18n="aboutP1">
+                <strong class="text-bark">Fishotgun</strong> is a multiplayer or solo fishing game set
+                in a bright, innocent-looking world inspired by cozy life sims and playful low-poly landscapes.
               </p>
-
-              <p class="mb-6">
-                Fishotgun is also a social experience. Through public lobbies and
-                a text chat system, players can easily talk to each other between
-                two shotgun blasts.
+              <p data-i18n="aboutP2">
+                Instead of using a rod, players blast fish out of the water, collect what they catch,
+                and slowly build up a growing collection filled with different classes and rarities.
               </p>
+              <p data-i18n="aboutP3">
+                It is also built as a social experience, with public lobbies and chat systems that let
+                players hang out, explore, and create chaos together between fishing sessions.
+              </p>
+            </div>
 
-              <div class="mb-2 rounded-xl border border-zinc-200 bg-white px-4 py-3">
-                <p class="font-medium text-zinc-900">
-                  Collect fishes based on their class and rarity — and join your friends in Fishotgun!
-                </p>
+            <div class="mt-6 grid gap-3 sm:grid-cols-3">
+              <div class="rounded-[1.5rem] border border-white/80 bg-white/80 p-4 shadow-sm">
+                <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-meadow-600" data-i18n="statMoodLabel">Mood</p>
+                <p class="mt-2 font-display text-2xl font-bold text-bark" data-i18n="statMoodValue">Cozy + chaotic</p>
               </div>
-
+              <div class="rounded-[1.5rem] border border-white/80 bg-white/80 p-4 shadow-sm">
+                <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-meadow-600" data-i18n="statPlayLabel">Play</p>
+                <p class="mt-2 font-display text-2xl font-bold text-bark" data-i18n="statPlayValue">Solo or multiplayer</p>
+              </div>
+              <div class="rounded-[1.5rem] border border-white/80 bg-white/80 p-4 shadow-sm">
+                <p class="text-xs font-extrabold uppercase tracking-[0.18em] text-meadow-600" data-i18n="statGoalLabel">Goal</p>
+                <p class="mt-2 font-display text-2xl font-bold text-bark" data-i18n="statGoalValue">Catch and collect</p>
+              </div>
             </div>
           </section>
         </div>
@@ -123,62 +236,123 @@
     </div>
   </section>
 
-  <!-- AUTRES SECTIONS (ancres) -->
-  <main class="mx-auto max-w-6xl px-4 md:px-8">
-    <!-- Rabbit Hole -->
-    <section id="rabbit-hole" class="mt-14 rounded-2xl bg-white p-6 shadow-sm border border-zinc-200">
-      <h2 class="text-2xl font-bold tracking-tight">Rabbit Hole</h2>
-      <p class="mt-3 max-w-prose text-zinc-700 leading-relaxed">
-        Rabbit Hole is a small team made up of students from EPITA. Its name refers
-        to an endless fall into digital darkness — just like a rabbit hole.
-      </p>
+  <main class="mx-auto max-w-6xl px-4 pb-10 md:px-8">
+    <section id="gallery" class="rounded-[2rem] border border-white/70 bg-white/75 p-4 shadow-cozy backdrop-blur-xl md:p-6">
+      <div class="mb-5 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="text-xs font-extrabold uppercase tracking-[0.25em] text-meadow-600" data-i18n="galleryEyebrow">In-Game Preview</p>
+          <h2 class="mt-2 font-display text-4xl font-extrabold text-bark" data-i18n="galleryTitle">A closer look at the world</h2>
+        </div>
+        <div class="flex gap-2">
+          <button id="carousel-prev" type="button"
+            class="rounded-full border border-white/80 bg-white/85 px-4 py-2 text-sm font-extrabold text-bark shadow-sm transition hover:-translate-y-0.5 hover:bg-white">
+            <span data-i18n="prev">Prev</span>
+          </button>
+          <button id="carousel-next" type="button"
+            class="rounded-full border border-meadow-400 bg-meadow-400 px-4 py-2 text-sm font-extrabold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-meadow-500">
+            <span data-i18n="next">Next</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="relative overflow-hidden rounded-[2rem] border border-white/70 bg-pond-50">
+        <div id="carousel-track" class="flex transition-transform duration-500 ease-out">
+          <figure class="min-w-full">
+            <img src="/assets/carrousel.png" alt="Fishotgun screenshot 1"
+              class="h-[240px] w-full object-cover md:h-[440px]" />
+          </figure>
+          <figure class="min-w-full">
+            <img src="/assets/carrousel2.png" alt="Fishotgun screenshot 2"
+              class="h-[240px] w-full object-cover md:h-[440px]" />
+          </figure>
+          <figure class="min-w-full">
+            <img src="/assets/carrousel3.png" alt="Fishotgun screenshot 3"
+              class="h-[240px] w-full object-cover md:h-[440px]" />
+          </figure>
+          <figure class="min-w-full">
+            <img src="/assets/carroussel4.png" alt="Fishotgun screenshot 4"
+              class="h-[240px] w-full object-cover md:h-[440px]" />
+          </figure>
+        </div>
+
+        <div class="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pb-4">
+          <div class="flex gap-2 rounded-full border border-white/30 bg-white/25 px-3 py-2 backdrop-blur-sm">
+            <button id="carousel-dot-0" type="button" aria-label="Slide 1"
+              class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/95 transition"></button>
+            <button id="carousel-dot-1" type="button" aria-label="Slide 2"
+              class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/45 transition"></button>
+            <button id="carousel-dot-2" type="button" aria-label="Slide 3"
+              class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/45 transition"></button>
+            <button id="carousel-dot-3" type="button" aria-label="Slide 4"
+              class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/45 transition"></button>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Dev Team -->
-    <section id="dev-team" class="mt-8 rounded-2xl bg-white p-6 shadow-sm border border-zinc-200">
-      <h2 class="text-2xl font-bold tracking-tight">Dev Team</h2>
-      <p class="mt-3 max-w-prose text-zinc-700 leading-relaxed">
-        Add a short paragraph about your team, roles, and what each person touches
-        (code, art, sound, design). Keep it short and readable.
-      </p>
+    <section class="mt-8 grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+      <section id="studio" class="rounded-[2rem] border border-white/70 bg-white/75 p-6 shadow-cozy backdrop-blur-xl">
+        <p class="text-xs font-extrabold uppercase tracking-[0.25em] text-meadow-600" data-i18n="studioEyebrow">Studio</p>
+        <h2 class="mt-2 font-display text-4xl font-extrabold text-bark">Rabbit Hole</h2>
+        <p class="mt-4 max-w-2xl text-base font-semibold leading-relaxed text-bark/80" data-i18n="studioBody">
+          Rabbit Hole is a small EPITA student team building a game that mixes cute visuals,
+          social multiplayer energy, and a slightly unhinged core idea. The name fits:
+          every new feature sends the project one layer deeper into the tunnel.
+        </p>
+      </section>
+
+      <section id="team" class="rounded-[2rem] border border-white/70 bg-white/75 p-6 shadow-cozy backdrop-blur-xl">
+        <p class="text-xs font-extrabold uppercase tracking-[0.25em] text-meadow-600" data-i18n="teamEyebrow">Team</p>
+        <h2 class="mt-2 font-display text-4xl font-extrabold text-bark" data-i18n="teamTitle">Dev Team</h2>
+        <p class="mt-4 text-base font-semibold leading-relaxed text-bark/80" data-i18n="teamBody">
+          Add a short intro for the people behind Fishotgun here: code, art, design,
+          audio, production, or any role you want to spotlight.
+        </p>
+      </section>
     </section>
 
-    <!-- Roadmap -->
-    <section id="roadmap" class="mt-8 rounded-2xl bg-white p-6 shadow-sm border border-zinc-200">
-      <h2 class="text-2xl font-bold tracking-tight">Roadmap</h2>
-      <ul class="mt-4 space-y-3 text-zinc-700">
-        <li class="flex gap-3">
-          <span class="mt-1 inline-block h-2 w-2 rounded-full bg-zinc-400"></span>
-          <span><strong class="text-zinc-900">v0.1</strong> — jeu en cours 🚧.</span>
-        </li>
-        <li class="flex gap-3">
-          <span class="mt-1 inline-block h-2 w-2 rounded-full bg-zinc-400"></span>
-          <span><strong class="text-zinc-900">v0.2</strong> — 🚧.</span>
-        </li>
-        <li class="flex gap-3">
-          <span class="mt-1 inline-block h-2 w-2 rounded-full bg-zinc-400"></span>
-          <span><strong class="text-zinc-900">v1.0</strong> — 🚧</span>
-        </li>
-      </ul>
+    <section id="roadmap" class="mt-8 rounded-[2rem] border border-white/70 bg-white/75 p-6 shadow-cozy backdrop-blur-xl">
+      <p class="text-xs font-extrabold uppercase tracking-[0.25em] text-meadow-600" data-i18n="roadmapEyebrow">Progress</p>
+      <h2 class="mt-2 font-display text-4xl font-extrabold text-bark" data-i18n="roadmapTitle">Roadmap</h2>
+
+      <div class="mt-6 grid gap-4 md:grid-cols-3">
+        <article class="rounded-[1.5rem] border border-white/80 bg-cream p-5 shadow-sm">
+          <p class="text-sm font-extrabold uppercase tracking-[0.16em] text-meadow-600">v0.1</p>
+          <h3 class="mt-2 font-display text-2xl font-bold text-bark" data-i18n="roadmap1Title">Core prototype</h3>
+          <p class="mt-3 text-sm font-semibold leading-relaxed text-bark/75" data-i18n="roadmap1Body">
+            Core gameplay, early art direction, and the first playable version of the Fishotgun idea.
+          </p>
+        </article>
+        <article class="rounded-[1.5rem] border border-white/80 bg-cream p-5 shadow-sm">
+          <p class="text-sm font-extrabold uppercase tracking-[0.16em] text-meadow-600">v0.2</p>
+          <h3 class="mt-2 font-display text-2xl font-bold text-bark" data-i18n="roadmap2Title">Public multiplayer</h3>
+          <p class="mt-3 text-sm font-semibold leading-relaxed text-bark/75" data-i18n="roadmap2Body">
+            Better online play, more progression, and a stronger social layer for lobbies and sessions.
+          </p>
+        </article>
+        <article class="rounded-[1.5rem] border border-white/80 bg-cream p-5 shadow-sm">
+          <p class="text-sm font-extrabold uppercase tracking-[0.16em] text-meadow-600">v1.0</p>
+          <h3 class="mt-2 font-display text-2xl font-bold text-bark" data-i18n="roadmap3Title">Full release</h3>
+          <p class="mt-3 text-sm font-semibold leading-relaxed text-bark/75" data-i18n="roadmap3Body">
+            A polished release with stronger content, smoother multiplayer, and a fuller collection experience.
+          </p>
+        </article>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="mt-14 mb-10 text-sm text-zinc-500">
-      <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-        <p>© <span id="year"></span> Fishotgun — Rabbit Hole</p>
-        <div class="flex gap-4">
-          <a class="hover:text-zinc-700" href="#">Discord le discord communautaire</a>
-          <a class="hover:text-zinc-700" href="#">Itch.io (en gros c'est le site ou on pourrait balancer le jeu </a>
-          <a class="hover:text-zinc-700" href="#">Steam ( voyons gros) </a>
+    <footer class="mt-10 rounded-[2rem] border border-white/70 bg-white/70 px-6 py-5 text-sm shadow-card backdrop-blur-xl">
+      <div class="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <p class="font-bold text-bark/70">&copy; <span id="year"></span> <span data-i18n="footerBy">Fishotgun by Rabbit Hole</span></p>
+        <div class="flex flex-wrap gap-4 font-extrabold text-meadow-600">
+          <a class="transition hover:text-meadow-500" href="#">Discord</a>
+          <a class="transition hover:text-meadow-500" href="#">Itch.io</a>
+          <a class="transition hover:text-meadow-500" href="#">Steam</a>
         </div>
       </div>
     </footer>
   </main>
 
-  <script>
-    // année automatique 
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  <script type="module" src="/js/main.js"></script>
 </body>
 
 </html>

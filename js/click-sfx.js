@@ -1,4 +1,4 @@
-const CLICK_SFX_SRC = "/assets/animal-crossing-catch-sound.mp3";
+const CLICK_SFX_SRC = "./assets/animal-crossing-catch-sound.mp3";
 const DOWNLOAD_REDIRECT_DELAY = 450;
 
 let clickSfx;

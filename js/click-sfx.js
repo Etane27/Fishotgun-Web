@@ -1,7 +1,7 @@
-const CLICK_SFX_SRC = "./assets/animal-crossing-catch-sound.mp3";
-const DOWNLOAD_REDIRECT_DELAY = 450;
+const DOWNLOAD_SFX_SRC = new URL("../assets/animal-crossing-catch-sound.mp3", import.meta.url).href;
+const DOWNLOAD_REDIRECT_TIMEOUT = 950;
 
-let clickSfx;
+let downloadSfxPreload;
 let sfxContext;
 
 function getSfxContext() {
@@ -17,21 +17,34 @@ function getSfxContext() {
   return sfxContext;
 }
 
-function getClickSfx() {
-  if (!clickSfx) {
-    clickSfx = new Audio(CLICK_SFX_SRC);
-    clickSfx.preload = "auto";
-    clickSfx.volume = 0.72;
+function preloadDownloadSfx() {
+  if (!downloadSfxPreload) {
+    downloadSfxPreload = new Audio(DOWNLOAD_SFX_SRC);
+    downloadSfxPreload.preload = "auto";
   }
-
-  return clickSfx;
 }
 
-function playClickSfx() {
-  const sfx = getClickSfx();
-  sfx.currentTime = 0;
+function playDownloadSfx() {
+  const sfx = new Audio(DOWNLOAD_SFX_SRC);
+  sfx.volume = 0.72;
 
-  return sfx.play().catch(() => {});
+  return sfx.play()
+    .then(() => new Promise((resolve) => {
+      let isDone = false;
+
+      const finish = () => {
+        if (isDone) {
+          return;
+        }
+
+        isDone = true;
+        resolve();
+      };
+
+      sfx.addEventListener("ended", finish, { once: true });
+      window.setTimeout(finish, DOWNLOAD_REDIRECT_TIMEOUT);
+    }))
+    .catch(() => {});
 }
 
 function playCuteClickSfx() {
@@ -76,16 +89,17 @@ function playCuteClickSfx() {
 }
 
 export function initClickSfx() {
+  preloadDownloadSfx();
+
   document.querySelectorAll("button, a[href]").forEach((element) => {
     element.addEventListener("click", (event) => {
       const downloadLink = element.closest("[data-download-link]");
 
       if (downloadLink) {
         event.preventDefault();
-        playClickSfx();
-        window.setTimeout(() => {
+        playDownloadSfx().finally(() => {
           window.location.href = downloadLink.href;
-        }, DOWNLOAD_REDIRECT_DELAY);
+        });
         return;
       }
 

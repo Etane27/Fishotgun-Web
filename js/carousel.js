@@ -7,21 +7,52 @@ function updateCarousel(index) {
   carouselTrack.style.transform = `translateX(-${carouselIndex * 100}%)`;
 
   carouselDots.forEach((dot, dotIndex) => {
-    dot.classList.toggle("bg-white/95", dotIndex === carouselIndex);
-    dot.classList.toggle("bg-white/45", dotIndex !== carouselIndex);
+    const isActive = dotIndex === carouselIndex;
+    dot.classList.toggle("bg-leaf-500", isActive);
+    dot.classList.toggle("scale-125", isActive);
+    dot.classList.toggle("bg-white/70", !isActive);
+    dot.setAttribute("aria-current", String(isActive));
   });
 }
 
 export function initCarousel() {
-  document.getElementById("carousel-prev").addEventListener("click", () => {
+  const previousButton = document.getElementById("carousel-prev");
+  const nextButton = document.getElementById("carousel-next");
+  const carouselViewport = carouselTrack?.parentElement;
+
+  if (!previousButton || !nextButton || !carouselTrack || carouselDots.some((dot) => !dot)) {
+    return;
+  }
+
+  previousButton.addEventListener("click", () => {
     updateCarousel(carouselIndex - 1);
   });
 
-  document.getElementById("carousel-next").addEventListener("click", () => {
+  nextButton.addEventListener("click", () => {
     updateCarousel(carouselIndex + 1);
   });
 
   carouselDots.forEach((dot, index) => {
     dot.addEventListener("click", () => updateCarousel(index));
   });
+
+  if (carouselViewport) {
+    let touchStartX = 0;
+
+    carouselViewport.addEventListener("touchstart", (event) => {
+      touchStartX = event.changedTouches[0].clientX;
+    }, { passive: true });
+
+    carouselViewport.addEventListener("touchend", (event) => {
+      const deltaX = event.changedTouches[0].clientX - touchStartX;
+
+      if (Math.abs(deltaX) < 40) {
+        return;
+      }
+
+      updateCarousel(deltaX < 0 ? carouselIndex + 1 : carouselIndex - 1);
+    }, { passive: true });
+  }
+
+  updateCarousel(0);
 }

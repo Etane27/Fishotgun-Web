@@ -1,3 +1,7 @@
+const CLICK_SFX_SRC = "/assets/animal-crossing-catch-sound.mp3";
+const DOWNLOAD_REDIRECT_DELAY = 450;
+
+let clickSfx;
 let sfxContext;
 
 function getSfxContext() {
@@ -11,6 +15,23 @@ function getSfxContext() {
   }
 
   return sfxContext;
+}
+
+function getClickSfx() {
+  if (!clickSfx) {
+    clickSfx = new Audio(CLICK_SFX_SRC);
+    clickSfx.preload = "auto";
+    clickSfx.volume = 0.72;
+  }
+
+  return clickSfx;
+}
+
+function playClickSfx() {
+  const sfx = getClickSfx();
+  sfx.currentTime = 0;
+
+  return sfx.play().catch(() => {});
 }
 
 function playCuteClickSfx() {
@@ -56,7 +77,18 @@ function playCuteClickSfx() {
 
 export function initClickSfx() {
   document.querySelectorAll("button, a[href]").forEach((element) => {
-    element.addEventListener("click", () => {
+    element.addEventListener("click", (event) => {
+      const downloadLink = element.closest("[data-download-link]");
+
+      if (downloadLink) {
+        event.preventDefault();
+        playClickSfx();
+        window.setTimeout(() => {
+          window.location.href = downloadLink.href;
+        }, DOWNLOAD_REDIRECT_DELAY);
+        return;
+      }
+
       playCuteClickSfx();
     });
   });

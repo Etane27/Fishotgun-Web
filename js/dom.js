@@ -5,9 +5,4 @@ export const tonearm = document.getElementById("tonearm");
 export const langEnButton = document.getElementById("lang-en");
 export const langFrButton = document.getElementById("lang-fr");
 export const carouselTrack = document.getElementById("carousel-track");
-export const carouselDots = [
-  document.getElementById("carousel-dot-0"),
-  document.getElementById("carousel-dot-1"),
-  document.getElementById("carousel-dot-2"),
-  document.getElementById("carousel-dot-3")
-];
+export const carouselDots = Array.from(document.querySelectorAll("[id^='carousel-dot-']"));

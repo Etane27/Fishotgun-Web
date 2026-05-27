@@ -1,11 +1,23 @@
 import { langEnButton, langFrButton } from "./dom.js";
 import { translations } from "./translations.js";
 
+function updateLanguageButton(button, isActive) {
+  button.classList.toggle("bg-leaf-400", isActive);
+  button.classList.toggle("text-white", isActive);
+  button.classList.toggle("text-soil/65", !isActive);
+  button.classList.toggle("hover:bg-leaf-50", !isActive);
+  button.setAttribute("aria-pressed", String(isActive));
+}
+
 export function setLanguage(language) {
+  if (!translations[language] || !langEnButton || !langFrButton) {
+    return;
+  }
+
   document.documentElement.lang = language;
   document.querySelectorAll("[data-i18n]").forEach((element) => {
     const key = element.dataset.i18n;
-    const value = translations[language][key];
+    const value = translations[language]?.[key];
 
     if (typeof value === "string") {
       element.innerHTML = value;
@@ -13,19 +25,17 @@ export function setLanguage(language) {
   });
 
   const isEnglish = language === "en";
-  langEnButton.classList.toggle("bg-meadow-400", isEnglish);
-  langEnButton.classList.toggle("text-white", isEnglish);
-  langEnButton.classList.toggle("text-bark/65", !isEnglish);
-  langEnButton.classList.toggle("hover:bg-white", !isEnglish);
-  langFrButton.classList.toggle("bg-meadow-400", !isEnglish);
-  langFrButton.classList.toggle("text-white", !isEnglish);
-  langFrButton.classList.toggle("text-bark/65", isEnglish);
-  langFrButton.classList.toggle("hover:bg-white", isEnglish);
+  updateLanguageButton(langEnButton, isEnglish);
+  updateLanguageButton(langFrButton, !isEnglish);
 
   localStorage.setItem("fishotgun-language", language);
 }
 
 export function initLanguageSwitcher() {
+  if (!langEnButton || !langFrButton) {
+    return;
+  }
+
   setLanguage(localStorage.getItem("fishotgun-language") || "en");
   langEnButton.addEventListener("click", () => setLanguage("en"));
   langFrButton.addEventListener("click", () => setLanguage("fr"));

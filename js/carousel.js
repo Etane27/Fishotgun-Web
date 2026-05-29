@@ -3,14 +3,16 @@ import { carouselDots, carouselTrack } from "./dom.js";
 let carouselIndex = 0;
 
 function updateCarousel(index) {
+  if (!carouselTrack || carouselDots.length === 0) {
+    return;
+  }
+
   carouselIndex = (index + carouselDots.length) % carouselDots.length;
   carouselTrack.style.transform = `translateX(-${carouselIndex * 100}%)`;
 
   carouselDots.forEach((dot, dotIndex) => {
     const isActive = dotIndex === carouselIndex;
-    dot.classList.toggle("bg-leaf-500", isActive);
-    dot.classList.toggle("scale-125", isActive);
-    dot.classList.toggle("bg-white/70", !isActive);
+    dot.classList.toggle("is-active", isActive);
     dot.setAttribute("aria-current", String(isActive));
   });
 }
@@ -20,17 +22,12 @@ export function initCarousel() {
   const nextButton = document.getElementById("carousel-next");
   const carouselViewport = carouselTrack?.parentElement;
 
-  if (!previousButton || !nextButton || !carouselTrack || carouselDots.some((dot) => !dot)) {
+  if (!previousButton || !nextButton || !carouselTrack || carouselDots.length === 0) {
     return;
   }
 
-  previousButton.addEventListener("click", () => {
-    updateCarousel(carouselIndex - 1);
-  });
-
-  nextButton.addEventListener("click", () => {
-    updateCarousel(carouselIndex + 1);
-  });
+  previousButton.addEventListener("click", () => updateCarousel(carouselIndex - 1));
+  nextButton.addEventListener("click", () => updateCarousel(carouselIndex + 1));
 
   carouselDots.forEach((dot, index) => {
     dot.addEventListener("click", () => updateCarousel(index));

@@ -4,11 +4,15 @@ function updateMusicButton(isPlaying) {
   musicToggle.setAttribute("aria-pressed", String(isPlaying));
   musicToggle.setAttribute("aria-label", isPlaying ? "Pause background music" : "Play background music");
   musicToggle.title = isPlaying ? "Now Playing: Main Theme" : "Music paused";
-  musicRecord.classList.toggle("animate-spin", isPlaying);
-  musicRecord.style.animationDuration = "3.8s";
-  musicToggle.classList.toggle("brightness-100", !isPlaying);
-  musicToggle.classList.toggle("brightness-110", isPlaying);
-  tonearm.style.transform = isPlaying ? "rotate(22deg)" : "rotate(5deg)";
+  musicToggle.classList.toggle("is-playing", isPlaying);
+
+  if (musicRecord) {
+    musicRecord.classList.toggle("is-spinning", isPlaying);
+  }
+
+  if (tonearm) {
+    tonearm.style.transform = isPlaying ? "rotate(22deg)" : "rotate(5deg)";
+  }
 }
 
 async function tryAutoplayMusic() {
@@ -21,6 +25,10 @@ async function tryAutoplayMusic() {
 }
 
 export function initMusicPlayer() {
+  if (!backgroundMusic || !musicToggle) {
+    return;
+  }
+
   backgroundMusic.volume = 0.35;
   updateMusicButton(false);
 
@@ -32,14 +40,13 @@ export function initMusicPlayer() {
       } catch (error) {
         updateMusicButton(false);
       }
+
       return;
     }
 
     backgroundMusic.pause();
     updateMusicButton(false);
   });
-
-  tryAutoplayMusic();
 
   ["click", "keydown", "touchstart"].forEach((eventName) => {
     window.addEventListener(eventName, () => {

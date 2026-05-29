@@ -3,7 +3,11 @@ import { initClickSfx } from "./click-sfx.js";
 import { initLanguageSwitcher } from "./language.js";
 import { initMusicPlayer } from "./music.js";
 
-document.getElementById("year").textContent = new Date().getFullYear();
+const yearElement = document.getElementById("year");
+
+if (yearElement) {
+  yearElement.textContent = new Date().getFullYear();
+}
 
 initLanguageSwitcher();
 initMusicPlayer();

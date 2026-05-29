@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,406 +9,201 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="./js/tailwind.config.js"></script>
   <link rel="stylesheet" href="./css/styles.css" />
 </head>
 
-<body class="min-h-screen bg-[radial-gradient(circle_at_top,rgba(160,229,255,0.45),rgba(254,245,220,1)_34%,rgba(255,249,232,1)_100%)] font-body text-soil">
-  <audio id="background-music" loop preload="auto" autoplay>
+<body>
+  <audio id="background-music" loop preload="auto">
     <source src="./assets/maintheme_background.mp3" type="audio/mpeg" />
   </audio>
 
-  <div class="pattern-dots pointer-events-none fixed inset-0 -z-30 opacity-80"></div>
-  <div class="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-    <div class="hero-cloud left-[6%] top-24 h-14 w-24 opacity-80"></div>
-    <div class="hero-cloud right-[10%] top-36 hidden h-20 w-36 opacity-70 lg:block"></div>
-    <div class="hero-cloud left-[24%] top-[32rem] hidden h-16 w-28 opacity-65 xl:block"></div>
-    <div class="absolute -left-16 top-16 h-72 w-72 rounded-full bg-leaf-100/70 blur-3xl"></div>
-    <div class="absolute right-0 top-0 h-80 w-80 rounded-full bg-river-100/70 blur-3xl"></div>
-    <div class="absolute bottom-24 right-[8%] h-64 w-64 rounded-full bg-bell-100/60 blur-3xl"></div>
-    <div class="absolute bottom-0 left-[18%] h-56 w-56 rounded-full bg-leaf-50/80 blur-3xl"></div>
+  <div class="page-pattern" aria-hidden="true"></div>
+  <div class="page-glow" aria-hidden="true">
+    <span class="hero-cloud hero-cloud--left"></span>
+    <span class="hero-cloud hero-cloud--right"></span>
+    <span class="hero-cloud hero-cloud--low"></span>
+    <span class="glow glow--leaf"></span>
+    <span class="glow glow--river"></span>
+    <span class="glow glow--bell"></span>
   </div>
 
-  <button id="music-toggle" type="button" aria-pressed="false" aria-label="Toggle background music" class="group fixed bottom-2 right-2 z-50 h-24 w-24 scale-[0.74] focus:outline-none sm:bottom-3 sm:right-3 sm:scale-[0.84] md:bottom-6 md:right-6 md:h-28 md:w-28 md:scale-100">
-    <span class="absolute inset-0 rounded-[2rem] border-2 border-white/55 bg-[linear-gradient(180deg,rgba(254,245,220,0.95),rgba(255,255,255,0.82))] shadow-[0_22px_40px_rgba(75,49,26,0.18)] backdrop-blur-xl transition duration-300 group-hover:-translate-y-1"></span>
-    <span class="absolute inset-[10px] rounded-[1.6rem] border border-leaf-200/70 bg-[linear-gradient(135deg,rgba(255,255,255,0.95),rgba(219,242,190,0.75))]"></span>
-    <span class="absolute left-[15px] top-[18px] h-[56px] w-[56px] rounded-full bg-[radial-gradient(circle_at_center,_#5d4835_0,_#151515_26%,_#0d0e10_56%,_#090909_100%)] shadow-[inset_0_0_0_2px_rgba(255,255,255,0.06),0_8px_18px_rgba(0,0,0,0.25)] transition duration-300 group-hover:scale-90 group-hover:opacity-0 md:left-[18px] md:top-[20px] md:h-[64px] md:w-[64px]"></span>
-    <span class="pointer-events-none absolute left-[25px] top-[28px] h-[36px] w-[36px] rounded-full border border-white/10 transition duration-300 group-hover:scale-90 group-hover:opacity-0 md:left-[32px] md:top-[34px] md:h-[40px] md:w-[40px]"></span>
-    <span class="pointer-events-none absolute left-[36px] top-[39px] h-[14px] w-[14px] rounded-full bg-[radial-gradient(circle,_#fef5dc_0,_#d0f0fc_55%,_#64be3c_100%)] ring-4 ring-soil/85 transition duration-300 group-hover:scale-90 group-hover:opacity-0 md:left-[45px] md:top-[48px] md:h-[16px] md:w-[16px]"></span>
-    <span id="music-record" class="pointer-events-none absolute left-[15px] top-[18px] h-[56px] w-[56px] rounded-full transition duration-300 group-hover:scale-90 group-hover:opacity-0 before:absolute before:left-1/2 before:top-[7px] before:h-4 before:w-1 before:-translate-x-1/2 before:rounded-full before:bg-white/35 md:left-[18px] md:top-[20px] md:h-[64px] md:w-[64px] md:before:top-[8px]"></span>
-    <span class="pointer-events-none absolute left-[67px] top-[14px] h-4 w-4 rounded-full bg-soil shadow-sm transition duration-300 group-hover:opacity-0 md:left-[80px] md:top-[16px]"></span>
-    <span id="tonearm" class="pointer-events-none absolute left-[73px] top-[29px] h-1.5 w-8 origin-left rounded-full bg-gradient-to-r from-slate-300 via-slate-100 to-slate-500 shadow-sm transition-all duration-300 group-hover:opacity-0 md:left-[87px] md:top-[34px] md:w-9"></span>
-    <span class="pointer-events-none absolute left-[95px] top-[27px] h-2.5 w-2.5 rounded-sm bg-slate-400 shadow-sm transition duration-300 group-hover:opacity-0 md:left-[111px] md:top-[31px]"></span>
-    <span class="pointer-events-none absolute inset-[12px] translate-y-2 rounded-[1.35rem] border-2 border-leaf-200/60 bg-gradient-to-br from-nook via-white to-leaf-50 p-2 opacity-0 shadow-card transition duration-300 group-hover:translate-y-0 group-hover:opacity-100">
-      <span class="flex h-full w-full items-center justify-center overflow-hidden rounded-[1rem] bg-white shadow-inner">
-        <img src="./assets/logo.png" alt="Fishotgun soundtrack cover" class="h-full w-full object-cover" />
-      </span>
-    </span>
-    <span class="pointer-events-none absolute bottom-[7px] left-1/2 -translate-x-1/2 rounded-full bg-soil/80 px-3 py-1 text-[9px] font-extrabold uppercase tracking-[0.18em] text-nook shadow-sm backdrop-blur-sm md:text-[10px]">Music</span>
+  <button id="music-toggle" type="button" class="music-toggle" aria-pressed="false" aria-label="Toggle background music">
+    <span class="music-toggle__shell"></span>
+    <span class="music-toggle__panel"></span>
+    <span class="music-toggle__disc"></span>
+    <span id="music-record" class="music-toggle__record"></span>
+    <span class="music-toggle__pin"></span>
+    <span id="tonearm" class="music-toggle__arm"></span>
+    <span class="music-toggle__needle"></span>
+    <span class="music-toggle__cover"><img src="./assets/logo.png" alt="Fishotgun soundtrack cover" /></span>
+    <span class="music-toggle__label">Music</span>
   </button>
 
-  <header class="sticky top-0 z-40 border-b border-white/60 bg-nook/80 backdrop-blur-xl">
-    <div class="mx-auto flex max-w-7xl flex-col gap-3 px-3 py-3 sm:px-4 md:px-8 lg:flex-row lg:items-center lg:justify-between">
-      <div class="flex min-w-0 items-center justify-between gap-2 sm:gap-4">
-        <a href="#top" class="inline-flex min-w-0 items-center gap-3">
-          <span class="inline-flex h-12 w-12 shrink-0 overflow-hidden rounded-[1.35rem] border-2 border-white/70 bg-river-300 shadow-[0_6px_0_rgba(15,131,173,0.82)]">
-            <img src="./assets/icon.png" alt="Rabbit Hole icon" class="h-full w-full object-cover" />
-          </span>
-          <span class="min-w-0">
-            <span class="block truncate text-[0.6rem] font-extrabold uppercase tracking-[0.2em] text-leaf-600 sm:text-[0.65rem] sm:tracking-[0.28em]">Rabbit Hole</span>
-            <span class="block truncate font-display text-xl text-soil sm:text-2xl">Fishotgun</span>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div class="site-header__main">
+        <a href="#top" class="brand" aria-label="Fishotgun home">
+          <span class="brand__icon"><img src="./assets/icon.png" alt="Rabbit Hole icon" /></span>
+          <span class="brand__text">
+            <span class="brand__studio">Rabbit Hole</span>
+            <span class="brand__title">Fishotgun</span>
           </span>
         </a>
-        <div class="flex items-center gap-1 rounded-full border-2 border-leaf-200/70 bg-white/85 p-1 shadow-sm">
-          <button id="lang-en" type="button" aria-pressed="true" class="rounded-full px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.18em] transition">EN</button>
-          <button id="lang-fr" type="button" aria-pressed="false" class="rounded-full px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.18em] transition">FR</button>
+
+        <div class="language-switcher" aria-label="Language selector">
+          <button id="lang-en" type="button" class="language-button" aria-pressed="true">EN</button>
+          <button id="lang-fr" type="button" class="language-button" aria-pressed="false">FR</button>
         </div>
       </div>
-      <nav class="-mx-1 flex flex-wrap items-center gap-2 px-1 pb-1 sm:hide-scrollbar sm:flex-nowrap sm:snap-x sm:overflow-x-auto lg:mx-0 lg:justify-end lg:pb-0">
-        <a href="#about" class="snap-start whitespace-nowrap rounded-full border-2 border-white/55 bg-white/80 px-3 py-2 text-xs font-bold text-soil shadow-sm transition hover:-translate-y-0.5 hover:bg-leaf-50 sm:px-4 sm:text-sm"><span data-i18n="navAbout">About</span></a>
-        <a href="#gallery" class="snap-start whitespace-nowrap rounded-full border-2 border-white/55 bg-white/80 px-3 py-2 text-xs font-bold text-soil shadow-sm transition hover:-translate-y-0.5 hover:bg-river-50 sm:px-4 sm:text-sm"><span data-i18n="navGallery">Gallery</span></a>
-        <a href="#team" class="snap-start whitespace-nowrap rounded-full border-2 border-white/55 bg-white/80 px-3 py-2 text-xs font-bold text-soil shadow-sm transition hover:-translate-y-0.5 hover:bg-bell-50 sm:px-4 sm:text-sm"><span data-i18n="navTeam">Team</span></a>
-        <a href="#roadmap" class="snap-start whitespace-nowrap rounded-full border-2 border-white/55 bg-white/80 px-3 py-2 text-xs font-bold text-soil shadow-sm transition hover:-translate-y-0.5 hover:bg-leaf-50 sm:px-4 sm:text-sm"><span data-i18n="navRoadmap">Roadmap</span></a>
-        <a href="https://github.com/Sertraln/Fishotgun/releases/download/v1.0/Fishotgun.Game.zip" data-download-link class="snap-start whitespace-nowrap rounded-full border-2 border-leaf-500 bg-leaf-400 px-3 py-2 text-xs font-bold text-white shadow-[0_4px_0_rgba(52,122,26,0.82)] transition hover:-translate-y-0.5 hover:shadow-[0_2px_0_rgba(52,122,26,0.82)] active:translate-y-0.5 active:shadow-none sm:px-4 sm:text-sm"><span data-i18n="download">Download</span></a>
+
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#about" class="nav-link"><span data-i18n="navAbout">About</span></a>
+        <a href="#gallery" class="nav-link"><span data-i18n="navGallery">Gallery</span></a>
+        <a href="#team" class="nav-link"><span data-i18n="navTeam">Team</span></a>
+        <a href="#roadmap" class="nav-link"><span data-i18n="navRoadmap">Roadmap</span></a>
+        <a href="https://github.com/Sertraln/Fishotgun/releases/download/v1.0/Fishotgun.Game.zip" data-download-link class="button button--small button--primary"><span data-i18n="download">Download</span></a>
       </nav>
     </div>
   </header>
 
-  <section id="top" class="relative overflow-hidden border-b border-white/35">
-    <div class="absolute inset-x-0 bottom-0 h-24 bg-[linear-gradient(180deg,transparent,rgba(74,156,40,0.12))]"></div>
-    <div class="mx-auto grid max-w-7xl gap-8 px-3 pb-12 pt-7 sm:px-4 md:px-8 lg:grid-cols-[minmax(0,1fr)_minmax(340px,0.95fr)] lg:items-end lg:gap-10 lg:pb-16 lg:pt-12 xl:min-h-[calc(100svh-5.4rem)]">
-      <div class="relative z-10 max-w-2xl">
-        <div class="leaf-badge hero-reveal">
-          <span aria-hidden="true" class="text-base">&#127811;</span>
-          <span data-i18n="heroEyebrow">Rabbit Hole Presents</span>
+  <section id="top" class="hero-section">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="badge reveal"><span aria-hidden="true">&#127811;</span><span data-i18n="heroEyebrow">Rabbit Hole Presents</span></div>
+        <h1 class="hero-title reveal reveal--delay-1">Fishotgun</h1>
+        <p class="hero-text reveal reveal--delay-2" data-i18n="heroBody">Play as a fishing rabbit who turns every catch into a duel: approach a fishing spot, track the shadow of a fish, charge your aim, and fire the shotgun at the right moment.</p>
+
+        <div class="hero-actions reveal reveal--delay-3">
+          <a href="https://github.com/Sertraln/Fishotgun/releases/download/v1.0/Fishotgun.Game.zip" data-download-link class="button button--primary"><span aria-hidden="true">&#127907;</span><span data-i18n="download">Download</span></a>
+          <a href="#gallery" class="button button--secondary"><span aria-hidden="true">&#128247;</span><span data-i18n="navGallery">Gallery</span></a>
         </div>
-        <h1 class="hero-reveal hero-delay-1 mt-5 font-display text-5xl leading-[0.95] text-soil sm:text-6xl md:mt-6 md:text-7xl lg:text-8xl">Fishotgun</h1>
-        <p class="hero-reveal hero-delay-2 mt-5 max-w-xl text-base font-bold leading-relaxed text-soil/78 sm:text-lg md:text-xl" data-i18n="heroBody">
-          Play as a fishing rabbit who turns every catch into a duel: approach a fishing spot, track the shadow of a fish, charge your aim, and fire the shotgun at the right moment.
-        </p>
-        <div class="hero-reveal hero-delay-3 mt-8 flex flex-wrap gap-3">
-          <a href="https://github.com/Sertraln/Fishotgun/releases/download/v1.0/Fishotgun.Game.zip" data-download-link class="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-leaf-500 bg-leaf-400 px-5 py-3 text-sm font-extrabold uppercase tracking-[0.08em] text-white shadow-[0_5px_0_rgba(52,122,26,0.82)] transition hover:-translate-y-0.5 hover:shadow-[0_2px_0_rgba(52,122,26,0.82)] active:translate-y-0.5 active:shadow-none sm:w-auto">
-            <span aria-hidden="true" class="text-lg">&#127907;</span>
-            <span data-i18n="download">Download</span>
-          </a>
-          <a href="#gallery" class="inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-white/60 bg-white/80 px-5 py-3 text-sm font-extrabold uppercase tracking-[0.08em] text-soil shadow-sm transition hover:-translate-y-0.5 hover:bg-river-50 sm:w-auto">
-            <span aria-hidden="true" class="text-lg">&#128247;</span>
-            <span data-i18n="navGallery">Gallery</span>
-          </a>
-        </div>
-        <div class="mt-4 flex flex-wrap items-center gap-3">
-          <p class="text-sm font-extrabold uppercase tracking-[0.18em] text-soil/45" data-i18n="downloadAvailable">Version 1.0 available now</p>
-          <a href="./assets/docs/guide-installation.pdf" target="_blank" rel="noopener" class="inline-flex w-full items-center justify-center gap-2 rounded-full border border-river-200 bg-white/70 px-3 py-1.5 text-xs font-extrabold uppercase tracking-[0.12em] text-river-600 transition hover:-translate-y-0.5 hover:bg-river-50 sm:w-auto">
-            <span aria-hidden="true">&#128196;</span>
-            <span data-i18n="installGuide">Installation guide</span>
-          </a>
+
+        <div class="hero-meta">
+          <p data-i18n="downloadAvailable">Version 1.0 available now</p>
+          <a href="./assets/docs/guide-installation.pdf" target="_blank" rel="noopener" class="document-link"><span aria-hidden="true">&#128196;</span><span data-i18n="installGuide">Installation guide</span></a>
         </div>
       </div>
 
-      <div class="relative mx-auto w-full max-w-[38rem] lg:max-w-none">
-        <div class="float-soft absolute -left-2 top-8 z-20 hidden w-44 md:block">
-          <div class="ds-card group relative overflow-hidden rounded-[2rem] border-2 border-white/70 bg-white/88 p-3 shadow-card backdrop-blur">
-            <div class="relative overflow-hidden rounded-[1.4rem] border-2 border-leaf-200/60 bg-leaf-50 transition duration-300 group-hover:border-bell-300/80">
-              <img src="./assets/icon.png" alt="Rabbit Hole icon" class="aspect-square w-full object-cover transition duration-300 group-hover:scale-110" />
-              <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_32%_22%,rgba(255,255,255,0.52),transparent_34%)] opacity-70"></div>
-            </div>
-            <div class="mt-3">
-              <p class="font-display text-xl leading-none text-soil">Fishotgun</p>
-              <p class="mt-1 text-[0.65rem] font-extrabold uppercase tracking-[0.18em] text-soil/45" data-i18n="cardBy">By Rabbit Hole</p>
-            </div>
-          </div>
-        </div>
-        <div class="section-shell relative border-white/65 bg-[linear-gradient(180deg,rgba(255,255,255,0.72),rgba(219,242,190,0.55))] p-3 shadow-[0_35px_80px_rgba(75,49,26,0.18)] lg:p-4">
-          <div class="absolute left-6 top-6 h-14 w-24 rounded-full bg-white/55 blur-2xl"></div>
-          <div class="absolute -bottom-10 left-10 h-36 w-36 rounded-full bg-bell-100/65 blur-3xl"></div>
-          <div class="relative overflow-hidden rounded-[2.2rem] border-2 border-white/65 bg-pond">
-            <img src="./assets/Cover wo logo.png" alt="Fishotgun cover art without logo" class="h-[260px] w-full object-cover object-center sm:h-[430px] xl:h-[560px]" />
-            <div class="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.26),transparent_28%,rgba(75,49,26,0.12)_100%)]"></div>
-            <div class="absolute inset-x-0 bottom-0 h-28 bg-[linear-gradient(180deg,transparent,rgba(254,245,220,0.96))]"></div>
-          </div>
-        </div>
+      <div class="hero-art">
+        <article class="game-card floating-card" aria-label="Fishotgun card">
+          <div class="game-card__image"><img src="./assets/icon.png" alt="Fishotgun icon" /></div>
+          <p class="game-card__title">Fishotgun</p>
+          <p class="game-card__meta" data-i18n="cardBy">By Rabbit Hole</p>
+        </article>
+        <div class="cover-frame"><img src="./assets/Cover wo logo.png" alt="Fishotgun cover art without logo" /></div>
       </div>
     </div>
   </section>
 
-  <main class="mx-auto max-w-7xl px-3 pb-24 pt-8 sm:px-4 md:px-8 md:pb-16 md:pt-10">
-    <div class="grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)]">
-      <section id="about" class="section-shell paper-panel p-4 sm:p-5 md:p-6">
-        <div class="max-w-3xl">
-          <div class="leaf-badge">
-            <span aria-hidden="true" class="text-base">&#127807;</span>
-            <span data-i18n="aboutEyebrow">About The Game</span>
-          </div>
-          <h2 class="mt-4 font-display text-3xl leading-tight text-soil md:text-4xl" data-i18n="aboutTitle">A calm world, a shotgun, and fish that fight back.</h2>
-        </div>
-        <div class="mt-5 max-w-3xl space-y-4 text-sm font-semibold leading-relaxed text-soil/78 md:text-base">
-          <p data-i18n="aboutP1"><strong class="text-soil">Fishotgun</strong> puts you in the paws of a rabbit fisher who catches fish with a shotgun. Fishing is the core mechanic, but it plays like a combat encounter rather than a quiet minigame.</p>
+  <main class="container main-content">
+    <div class="content-grid">
+      <section id="about" class="panel panel--paper">
+        <div class="badge"><span aria-hidden="true">&#127807;</span><span data-i18n="aboutEyebrow">About The Game</span></div>
+        <h2 class="section-title" data-i18n="aboutTitle">A calm world, a shotgun, and fish that fight back.</h2>
+        <div class="text-stack">
+          <p data-i18n="aboutP1"><strong>Fishotgun</strong> puts you in the paws of a rabbit fisher who catches fish with a shotgun. Fishing is the core mechanic, but it plays like a combat encounter rather than a quiet minigame.</p>
           <p data-i18n="aboutP2">When you get close enough to a fishing spot, you can enter a fight. During that fight, the fish are hidden: you only read their silhouettes and species, follow their movement, fill the gauge, then shoot to capture them.</p>
           <p data-i18n="aboutP3">Captured fish fill the Fishodex, a book that categorizes every species you have caught. Upgrades can improve your weapon or your chance of meeting rare fish, while the shop lets you buy ammo and trade wanted fish with other players.</p>
         </div>
       </section>
 
-      <article class="section-shell wood-panel p-4 sm:p-6 md:p-7">
-          <div>
-            <div>
-              <div class="leaf-badge border-bell-200/70 bg-white/60 text-bell-600">
-                <span aria-hidden="true" class="text-base">&#127907;</span>
-                <span data-i18n="loopEyebrow">Game Loop</span>
-              </div>
-              <h2 class="mt-5 font-display text-4xl leading-tight text-soil" data-i18n="loopTitle">Track, fire, fill the Fishodex.</h2>
-            </div>
-          </div>
-          <div class="mt-7 grid gap-3">
-            <div class="rounded-[1.35rem] border-2 border-white/60 bg-white/65 p-4">
-              <p class="text-[0.7rem] font-extrabold uppercase tracking-[0.2em] text-river-600" data-i18n="loopStep1Label">01 Find a spot</p>
-              <p class="mt-1 text-sm font-bold leading-relaxed text-soil/76" data-i18n="loopStep1Body">Walk across the peaceful map, get close to a fishing point, and interact with it to enter the combat phase.</p>
-            </div>
-            <div class="rounded-[1.35rem] border-2 border-white/60 bg-white/65 p-4">
-              <p class="text-[0.7rem] font-extrabold uppercase tracking-[0.2em] text-leaf-600" data-i18n="loopStep2Label">02 Follow the fish</p>
-              <p class="mt-1 text-sm font-bold leading-relaxed text-soil/76" data-i18n="loopStep2Body">Read the silhouette, follow the fish long enough to fill the gauge, then fire when the shot is ready.</p>
-            </div>
-            <div class="rounded-[1.35rem] border-2 border-white/60 bg-white/65 p-4">
-              <p class="text-[0.7rem] font-extrabold uppercase tracking-[0.2em] text-bell-600" data-i18n="loopStep3Label">03 Collect and trade</p>
-              <p class="mt-1 text-sm font-bold leading-relaxed text-soil/76" data-i18n="loopStep3Body">Add captured fish to the Fishodex, upgrade your odds, buy ammo, and use controlled chat to interact with other players.</p>
-            </div>
-          </div>
-      </article>
-
-      <section id="studio" class="section-shell bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(208,240,252,0.72))] p-4 sm:p-5 md:p-6 xl:col-span-2">
-        <div class="grid gap-5 sm:grid-cols-[6rem_minmax(0,1fr)] sm:items-center">
-          <div class="flex h-24 w-24 items-center justify-center overflow-hidden rounded-[1.7rem] border-2 border-white/70 bg-white/80 p-2 shadow-card">
-            <img src="./assets/logo.png" alt="Rabbit Hole team logo" class="h-full w-full object-contain" />
-          </div>
-          <div class="min-w-0">
-            <div class="leaf-badge border-river-200/70 bg-white/65 text-river-600">
-              <span aria-hidden="true" class="text-base">&#127969;</span>
-              <span data-i18n="studioEyebrow">Studio</span>
-            </div>
-            <h2 class="mt-4 font-display text-3xl text-soil md:text-4xl">Rabbit Hole</h2>
-            <p class="mt-3 text-sm font-semibold leading-relaxed text-soil/78 md:text-base" data-i18n="studioBody">Rabbit Hole is a small EPITA student team building a game that mixes cute visuals, social multiplayer energy, and a slightly unhinged core idea. The name fits: every new feature sends the project one layer deeper into the tunnel.</p>
-          </div>
+      <section class="panel panel--wood" aria-labelledby="loop-title">
+        <div class="badge badge--bell"><span aria-hidden="true">&#127907;</span><span data-i18n="loopEyebrow">Game Loop</span></div>
+        <h2 id="loop-title" class="section-title" data-i18n="loopTitle">Track, fire, fill the Fishodex.</h2>
+        <div class="loop-list">
+          <article class="loop-step"><h3 data-i18n="loopStep1Label">01 Find a spot</h3><p data-i18n="loopStep1Body">Walk across the peaceful map, get close to a fishing point, and interact with it to enter the combat phase.</p></article>
+          <article class="loop-step loop-step--leaf"><h3 data-i18n="loopStep2Label">02 Follow the fish</h3><p data-i18n="loopStep2Body">Read the silhouette, follow the fish long enough to fill the gauge, then fire when the shot is ready.</p></article>
+          <article class="loop-step loop-step--bell"><h3 data-i18n="loopStep3Label">03 Collect and trade</h3><p data-i18n="loopStep3Body">Add captured fish to the Fishodex, upgrade your odds, buy ammo, and use controlled chat to interact with other players.</p></article>
         </div>
       </section>
     </div>
 
-    <section id="gallery" class="section-shell mt-6 bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(208,240,252,0.74))] p-4 sm:p-5 md:p-8">
-      <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div class="max-w-3xl">
-          <div class="leaf-badge border-river-200/70 bg-white/65 text-river-600">
-            <span aria-hidden="true" class="text-base">&#128247;</span>
-            <span data-i18n="galleryEyebrow">In-Game Preview</span>
-          </div>
-          <h2 class="mt-5 font-display text-3xl leading-tight text-soil sm:text-4xl md:text-5xl" data-i18n="galleryTitle">A closer look at the world</h2>
-        </div>
-        <div class="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
-          <button id="carousel-prev" type="button" class="rounded-full border-2 border-white/60 bg-white/85 px-4 py-2 text-sm font-extrabold uppercase tracking-[0.08em] text-soil shadow-sm transition hover:-translate-y-0.5 hover:bg-river-50"><span data-i18n="prev">Prev</span></button>
-          <button id="carousel-next" type="button" class="rounded-full border-2 border-leaf-500 bg-leaf-400 px-4 py-2 text-sm font-extrabold uppercase tracking-[0.08em] text-white shadow-[0_4px_0_rgba(52,122,26,0.82)] transition hover:-translate-y-0.5 hover:shadow-[0_2px_0_rgba(52,122,26,0.82)] active:translate-y-0.5 active:shadow-none"><span data-i18n="next">Next</span></button>
-        </div>
-      </div>
-
-      <div class="relative overflow-hidden rounded-[1.4rem] border-2 border-white/70 bg-white/55 shadow-card sm:rounded-[2.4rem]">
-          <div id="carousel-track" class="flex transition-transform duration-500 ease-out">
-            <figure class="flex aspect-[16/10] min-w-full items-center justify-center bg-soil/10 sm:aspect-[16/9]"><img src="./assets/carrousel3.png" alt="Fishotgun screenshot 1" class="h-full w-full object-contain" /></figure>
-            <figure class="flex aspect-[16/10] min-w-full items-center justify-center bg-soil/10 sm:aspect-[16/9]"><img src="./assets/carrousel2.png" alt="Fishotgun screenshot 2" class="h-full w-full object-contain" /></figure>
-            <figure class="flex aspect-[16/10] min-w-full items-center justify-center bg-soil/10 sm:aspect-[16/9]"><img src="./assets/carrousel.png" alt="Fishotgun screenshot 3" class="h-full w-full object-contain" /></figure>
-            <figure class="flex aspect-[16/10] min-w-full items-center justify-center bg-soil/10 sm:aspect-[16/9]"><img src="./assets/carroussel4.png" alt="Fishotgun screenshot 4" class="h-full w-full object-contain" /></figure>
-            <figure class="flex aspect-[16/10] min-w-full items-center justify-center bg-soil/10 sm:aspect-[16/9]"><img src="./assets/carrousel5.png" alt="Fishotgun screenshot 5" class="h-full w-full object-contain" /></figure>
-            <figure class="flex aspect-[16/10] min-w-full items-center justify-center bg-soil/10 sm:aspect-[16/9]"><img src="./assets/carrousel6.png" alt="Fishotgun screenshot 6" class="h-full w-full object-contain" /></figure>
-            <figure class="flex aspect-[16/10] min-w-full items-center justify-center bg-soil/10 sm:aspect-[16/9]"><img src="./assets/carrousel7.png" alt="Fishotgun screenshot 7" class="h-full w-full object-contain" /></figure>
-            <figure class="flex aspect-[16/10] min-w-full items-center justify-center bg-soil/10 sm:aspect-[16/9]"><img src="./assets/carrousel8.png" alt="Fishotgun screenshot 8" class="h-full w-full object-contain" /></figure>
-            <figure class="flex aspect-[16/10] min-w-full items-center justify-center bg-soil/10 sm:aspect-[16/9]"><img src="./assets/carrousel9.png" alt="Fishotgun screenshot 9" class="h-full w-full object-contain" /></figure>
-            <figure class="flex aspect-[16/10] min-w-full items-center justify-center bg-soil/10 sm:aspect-[16/9]"><img src="./assets/carrousel10.png" alt="Fishotgun screenshot 10" class="h-full w-full object-contain" /></figure>
-          </div>
-          <div class="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center pb-4">
-            <div class="mx-3 flex max-w-[calc(100%-1.5rem)] flex-wrap justify-center gap-2 rounded-full border border-white/40 bg-nook/55 px-3 py-2 backdrop-blur-sm">
-              <button id="carousel-dot-0" type="button" aria-label="Slide 1" class="pointer-events-auto h-2.5 w-2.5 scale-125 rounded-full bg-leaf-500 transition"></button>
-              <button id="carousel-dot-1" type="button" aria-label="Slide 2" class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/70 transition"></button>
-              <button id="carousel-dot-2" type="button" aria-label="Slide 3" class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/70 transition"></button>
-              <button id="carousel-dot-3" type="button" aria-label="Slide 4" class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/70 transition"></button>
-              <button id="carousel-dot-4" type="button" aria-label="Slide 5" class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/70 transition"></button>
-              <button id="carousel-dot-5" type="button" aria-label="Slide 6" class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/70 transition"></button>
-              <button id="carousel-dot-6" type="button" aria-label="Slide 7" class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/70 transition"></button>
-              <button id="carousel-dot-7" type="button" aria-label="Slide 8" class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/70 transition"></button>
-              <button id="carousel-dot-8" type="button" aria-label="Slide 9" class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/70 transition"></button>
-              <button id="carousel-dot-9" type="button" aria-label="Slide 10" class="pointer-events-auto h-2.5 w-2.5 rounded-full bg-white/70 transition"></button>
-            </div>
-          </div>
+    <section id="studio" class="panel panel--studio">
+      <img src="./assets/logo.png" alt="Rabbit Hole team logo" class="studio-logo" />
+      <div>
+        <div class="badge badge--river"><span aria-hidden="true">&#127969;</span><span data-i18n="studioEyebrow">Studio</span></div>
+        <h2 class="section-title">Rabbit Hole</h2>
+        <p class="section-copy" data-i18n="studioBody">Rabbit Hole is a small EPITA student team building a game that mixes cute visuals, social multiplayer energy, and a slightly unhinged core idea. The name fits: every new feature sends the project one layer deeper into the tunnel.</p>
       </div>
     </section>
 
-    <div class="mt-8 grid items-start gap-8 xl:grid-cols-[minmax(300px,0.86fr)_minmax(0,1.14fr)]">
-      <section id="roadmap" class="section-shell self-start bg-[linear-gradient(180deg,rgba(255,255,255,0.86),rgba(255,245,192,0.72))] p-4 sm:p-6 md:p-8">
-        <div class="leaf-badge border-bell-200/70 bg-white/65 text-bell-600">
-          <span aria-hidden="true" class="text-base">&#128506;&#65039;</span>
-          <span data-i18n="roadmapEyebrow">Roadmap</span>
+    <section id="gallery" class="panel panel--gallery">
+      <div class="section-header">
+        <div>
+          <div class="badge badge--river"><span aria-hidden="true">&#128247;</span><span data-i18n="galleryEyebrow">In-Game Preview</span></div>
+          <h2 class="section-title section-title--large" data-i18n="galleryTitle">A closer look at the world</h2>
         </div>
-        <h2 class="mt-5 font-display text-3xl leading-tight text-soil sm:text-4xl" data-i18n="roadmapTitle">Version history</h2>
-        <p class="mt-4 text-sm font-bold leading-relaxed text-soil/70" data-i18n="roadmapIntro">A versioned timeline highlighting the major features added at each milestone.</p>
-        <div class="relative mt-7 pl-5 before:absolute before:bottom-3 before:left-[0.2rem] before:top-3 before:w-1 before:rounded-full before:bg-gradient-to-b before:from-bell-300 before:via-leaf-300 before:to-river-300 sm:pl-8 sm:before:left-[0.46rem]">
-          <article class="timeline-item relative rounded-[1.35rem] border-2 border-white/60 bg-white/65 p-4 shadow-sm">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="rounded-full bg-bell-100 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-bell-600">v0.0</span>
-              <span class="rounded-full bg-white/75 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-soil/45" data-i18n="roadmapDate1">Sep-Oct 2025</span>
-            </div>
-            <h3 class="mt-3 font-display text-2xl leading-none text-soil" data-i18n="roadmap1Title">Project foundations</h3>
-            <p class="mt-2 text-sm font-semibold leading-relaxed text-soil/72" data-i18n="roadmap1Body">Repository setup, first menu work, engine migration to Ursina, README cleanup, and the first camera rotation prototype.</p>
-          </article>
-          <article class="timeline-item relative mt-4 rounded-[1.35rem] border-2 border-white/60 bg-white/65 p-4 shadow-sm">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="rounded-full bg-bell-100 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-bell-600">v0.1</span>
-              <span class="rounded-full bg-white/75 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-soil/45" data-i18n="roadmapDate2">Nov 2025-Jan 2026</span>
-            </div>
-            <h3 class="mt-3 font-display text-2xl leading-none text-soil" data-i18n="roadmap2Title">Movement, physics and networking base</h3>
-            <p class="mt-2 text-sm font-semibold leading-relaxed text-soil/72" data-i18n="roadmap2Body">Basic movement, third-person camera, fishing spots, server sockets, packet API, collision work, player sync, fish movement, and first spawn/move loop.</p>
-          </article>
-          <article class="timeline-item relative mt-4 rounded-[1.35rem] border-2 border-bell-200/70 bg-bell-50/75 p-4 shadow-sm">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="rounded-full bg-bell-100 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-bell-600" data-i18n="roadmapReportMilestone">Report</span>
-              <span class="rounded-full bg-white/75 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-soil/45">12/01/2026</span>
-            </div>
-            <h3 class="mt-3 font-display text-2xl leading-none text-soil" data-i18n="roadmapReport1Title">First soutenance</h3>
-            <p class="mt-2 text-sm font-semibold leading-relaxed text-soil/72" data-i18n="roadmapReport1Body">First formal project checkpoint, covering the early technical base and development direction.</p>
-            <a href="./assets/docs/rapport-soutenance-1.pdf" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-2 rounded-full border-2 border-bell-200 bg-white/75 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.12em] text-bell-600 transition hover:-translate-y-0.5 hover:bg-bell-50">
-              <span aria-hidden="true">&#128196;</span>
-              <span data-i18n="roadmapReport1">Soutenance 1 report</span>
-            </a>
-          </article>
-          <article class="timeline-item relative mt-4 rounded-[1.35rem] border-2 border-white/60 bg-white/65 p-4 shadow-sm">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="rounded-full bg-bell-100 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-bell-600">v0.2</span>
-              <span class="rounded-full bg-white/75 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-soil/45" data-i18n="roadmapDate3">Feb-Mar 2026</span>
-            </div>
-            <h3 class="mt-3 font-display text-2xl leading-none text-soil" data-i18n="roadmap3Title">Menus, chat and multiplayer UX</h3>
-            <p class="mt-2 text-sm font-semibold leading-relaxed text-soil/72" data-i18n="roadmap3Body">Main menu, server list, scrollable menus, book menu, chat, escape flow, styled UI, client-server reconciliation, and smoother player animation.</p>
-          </article>
-          <article class="timeline-item relative mt-4 rounded-[1.35rem] border-2 border-white/60 bg-white/65 p-4 shadow-sm">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="rounded-full bg-river-100 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-river-600">v0.3</span>
-              <span class="rounded-full bg-white/75 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-soil/45" data-i18n="roadmapDate4">Mar-Apr 2026</span>
-            </div>
-            <h3 class="mt-3 font-display text-2xl leading-none text-soil" data-i18n="roadmap4Title">World, water and persistence</h3>
-            <p class="mt-2 text-sm font-semibold leading-relaxed text-soil/72" data-i18n="roadmap4Body">Terrain scale, mountains, sky, custom fonts, water shader, pixelized water, grass texture, ambient light, logo, and server/client save systems.</p>
-          </article>
-          <article class="timeline-item relative mt-4 rounded-[1.35rem] border-2 border-river-200/70 bg-river-50/75 p-4 shadow-sm">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="rounded-full bg-river-100 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-river-600" data-i18n="roadmapReportMilestone">Report</span>
-              <span class="rounded-full bg-white/75 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-soil/45">20/03/2026</span>
-            </div>
-            <h3 class="mt-3 font-display text-2xl leading-none text-soil" data-i18n="roadmapReport2Title">Second soutenance</h3>
-            <p class="mt-2 text-sm font-semibold leading-relaxed text-soil/72" data-i18n="roadmapReport2Body">Second project checkpoint, after the multiplayer UX, fishing combat, world, water, and save systems had moved forward.</p>
-            <a href="./assets/docs/rapport-soutenance-2.pdf" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-2 rounded-full border-2 border-river-200 bg-white/75 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.12em] text-river-600 transition hover:-translate-y-0.5 hover:bg-river-50">
-              <span aria-hidden="true">&#128196;</span>
-              <span data-i18n="roadmapReport2">Soutenance 2 report</span>
-            </a>
-          </article>
-          <article class="timeline-item relative mt-4 rounded-[1.35rem] border-2 border-white/60 bg-white/65 p-4 shadow-sm">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="rounded-full bg-river-100 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-river-600">v0.4</span>
-              <span class="rounded-full bg-white/75 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-soil/45" data-i18n="roadmapDate5">18-22 May 2026</span>
-            </div>
-            <h3 class="mt-3 font-display text-2xl leading-none text-soil" data-i18n="roadmap5Title">Fishing combat, audio and Fishodex</h3>
-            <p class="mt-2 text-sm font-semibold leading-relaxed text-soil/72" data-i18n="roadmap5Body">Shotgun gameplay, combat transition, pressure and HP bars, splash and gunshot sounds, game music, bird ambience, inventory, fish textures, and Fishodex foundations.</p>
-          </article>
-          <article class="timeline-item relative mt-4 rounded-[1.35rem] border-2 border-bell-200/70 bg-bell-50/75 p-4 shadow-sm">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="rounded-full bg-bell-100 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-bell-600">v0.5</span>
-              <span class="rounded-full bg-white/75 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-soil/45" data-i18n="roadmapDate6">25-27 May 2026</span>
-            </div>
-            <h3 class="mt-3 font-display text-2xl leading-none text-soil" data-i18n="roadmap6Title">Collection, shop and content sprint</h3>
-            <p class="mt-2 text-sm font-semibold leading-relaxed text-soil/72" data-i18n="roadmap6Body">Collected fish now feed the inventory and Fishodex, shop selling/economy systems arrived, dollars became scales, new fish and rarities were balanced, HUD/UI/menu polish landed, playlists were added, and debug/minor issues were cleaned up.</p>
-          </article>
-          <article class="timeline-item relative mt-4 rounded-[1.35rem] border-2 border-leaf-200/70 bg-leaf-50/75 p-4 shadow-sm">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="rounded-full bg-leaf-100 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-leaf-600">v0.6</span>
-              <span class="rounded-full bg-white/75 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-leaf-600" data-i18n="roadmapStatusCurrent">Current</span>
-            </div>
-            <h3 class="mt-3 font-display text-2xl leading-none text-soil" data-i18n="roadmap7Title">Playable progression build</h3>
-            <p class="mt-2 text-sm font-semibold leading-relaxed text-soil/72" data-i18n="roadmap7Body">Current build: stabilized levels, movement, shop/server behavior, chat/Fishodex layering, and packaged everything into a cleaner playable build.</p>
-          </article>
-          <article class="timeline-item relative mt-4 rounded-[1.35rem] border-2 border-leaf-200/70 bg-white/75 p-4 shadow-sm">
-            <div class="flex flex-wrap items-center gap-2">
-              <span class="rounded-full bg-leaf-100 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-leaf-600" data-i18n="roadmapReportMilestone">Report</span>
-              <span class="rounded-full bg-white/75 px-3 py-1 text-xs font-extrabold uppercase tracking-[0.14em] text-soil/45">27/05/2026</span>
-            </div>
-            <h3 class="mt-3 font-display text-2xl leading-none text-soil" data-i18n="roadmapReportFinalTitle">Final soutenance</h3>
-            <p class="mt-2 text-sm font-semibold leading-relaxed text-soil/72" data-i18n="roadmapReportFinalBody">Final project report for the current playable build, covering the latest content, polishing work, and delivery state.</p>
-            <a href="./assets/docs/rapport-soutenance-final.pdf" target="_blank" rel="noopener" class="mt-4 inline-flex items-center gap-2 rounded-full border-2 border-leaf-200 bg-white/75 px-4 py-2 text-xs font-extrabold uppercase tracking-[0.12em] text-leaf-600 transition hover:-translate-y-0.5 hover:bg-leaf-50">
-              <span aria-hidden="true">&#128196;</span>
-              <span data-i18n="roadmapReportFinal">Final report</span>
-            </a>
-          </article>
+        <div class="gallery-controls">
+          <button id="carousel-prev" type="button" class="button button--secondary button--small"><span data-i18n="prev">Prev</span></button>
+          <button id="carousel-next" type="button" class="button button--primary button--small"><span data-i18n="next">Next</span></button>
+        </div>
+      </div>
+
+      <div class="carousel" aria-label="Fishotgun screenshots">
+        <div id="carousel-track" class="carousel__track">
+          <figure class="carousel__slide"><img src="./assets/carrousel3.png" alt="Fishotgun screenshot 1" /></figure>
+          <figure class="carousel__slide"><img src="./assets/carrousel2.png" alt="Fishotgun screenshot 2" /></figure>
+          <figure class="carousel__slide"><img src="./assets/carrousel.png" alt="Fishotgun screenshot 3" /></figure>
+          <figure class="carousel__slide"><img src="./assets/carroussel4.png" alt="Fishotgun screenshot 4" /></figure>
+          <figure class="carousel__slide"><img src="./assets/carrousel5.png" alt="Fishotgun screenshot 5" /></figure>
+          <figure class="carousel__slide"><img src="./assets/carrousel6.png" alt="Fishotgun screenshot 6" /></figure>
+          <figure class="carousel__slide"><img src="./assets/carrousel7.png" alt="Fishotgun screenshot 7" /></figure>
+          <figure class="carousel__slide"><img src="./assets/carrousel8.png" alt="Fishotgun screenshot 8" /></figure>
+          <figure class="carousel__slide"><img src="./assets/carrousel9.png" alt="Fishotgun screenshot 9" /></figure>
+          <figure class="carousel__slide"><img src="./assets/carrousel10.png" alt="Fishotgun screenshot 10" /></figure>
+        </div>
+
+        <div class="carousel__dots">
+          <button id="carousel-dot-0" type="button" aria-label="Slide 1" class="carousel-dot is-active"></button>
+          <button id="carousel-dot-1" type="button" aria-label="Slide 2" class="carousel-dot"></button>
+          <button id="carousel-dot-2" type="button" aria-label="Slide 3" class="carousel-dot"></button>
+          <button id="carousel-dot-3" type="button" aria-label="Slide 4" class="carousel-dot"></button>
+          <button id="carousel-dot-4" type="button" aria-label="Slide 5" class="carousel-dot"></button>
+          <button id="carousel-dot-5" type="button" aria-label="Slide 6" class="carousel-dot"></button>
+          <button id="carousel-dot-6" type="button" aria-label="Slide 7" class="carousel-dot"></button>
+          <button id="carousel-dot-7" type="button" aria-label="Slide 8" class="carousel-dot"></button>
+          <button id="carousel-dot-8" type="button" aria-label="Slide 9" class="carousel-dot"></button>
+          <button id="carousel-dot-9" type="button" aria-label="Slide 10" class="carousel-dot"></button>
+        </div>
+      </div>
+    </section>
+
+    <div class="lower-grid">
+      <section id="roadmap" class="panel panel--roadmap">
+        <div class="badge badge--bell"><span aria-hidden="true">&#128506;&#65039;</span><span data-i18n="roadmapEyebrow">Roadmap</span></div>
+        <h2 class="section-title" data-i18n="roadmapTitle">Version history</h2>
+        <p class="section-copy" data-i18n="roadmapIntro">A versioned timeline highlighting the major features added at each milestone.</p>
+        <div class="timeline">
+          <article class="timeline-item"><div class="timeline-meta"><span>v0.0</span><span data-i18n="roadmapDate1">Sep-Oct 2025</span></div><h3 data-i18n="roadmap1Title">Project foundations</h3><p data-i18n="roadmap1Body">Repository setup, first menu work, engine migration to Ursina, README cleanup, and the first camera rotation prototype.</p></article>
+          <article class="timeline-item"><div class="timeline-meta"><span>v0.1</span><span data-i18n="roadmapDate2">Nov 2025-Jan 2026</span></div><h3 data-i18n="roadmap2Title">Movement, physics and networking base</h3><p data-i18n="roadmap2Body">Basic movement, third-person camera, fishing spots, server sockets, packet API, collision work, player sync, fish movement, and first spawn/move loop.</p></article>
+          <article class="timeline-item timeline-item--report"><div class="timeline-meta"><span data-i18n="roadmapReportMilestone">Report</span><span>12/01/2026</span></div><h3 data-i18n="roadmapReport1Title">First soutenance</h3><p data-i18n="roadmapReport1Body">First formal project checkpoint, covering the early technical base and development direction.</p><a href="./assets/docs/rapport-soutenance-1.pdf" target="_blank" rel="noopener" class="document-link"><span aria-hidden="true">&#128196;</span><span data-i18n="roadmapReport1">Soutenance 1 report</span></a></article>
+          <article class="timeline-item"><div class="timeline-meta"><span>v0.2</span><span data-i18n="roadmapDate3">Feb-Mar 2026</span></div><h3 data-i18n="roadmap3Title">Menus, chat and multiplayer UX</h3><p data-i18n="roadmap3Body">Main menu, server list, scrollable menus, book menu, chat, escape flow, styled UI, client-server reconciliation, and smoother player animation.</p></article>
+          <article class="timeline-item"><div class="timeline-meta"><span>v0.3</span><span data-i18n="roadmapDate4">Mar-Apr 2026</span></div><h3 data-i18n="roadmap4Title">World, water and persistence</h3><p data-i18n="roadmap4Body">Terrain scale, mountains, sky, custom fonts, water shader, pixelized water, grass texture, ambient light, logo, and server/client save systems.</p></article>
+          <article class="timeline-item timeline-item--river"><div class="timeline-meta"><span data-i18n="roadmapReportMilestone">Report</span><span>20/03/2026</span></div><h3 data-i18n="roadmapReport2Title">Second soutenance</h3><p data-i18n="roadmapReport2Body">Second project checkpoint, after the multiplayer UX, fishing combat, world, water, and save systems had moved forward.</p><a href="./assets/docs/rapport-soutenance-2.pdf" target="_blank" rel="noopener" class="document-link"><span aria-hidden="true">&#128196;</span><span data-i18n="roadmapReport2">Soutenance 2 report</span></a></article>
+          <article class="timeline-item"><div class="timeline-meta"><span>v0.4</span><span data-i18n="roadmapDate5">18-22 May 2026</span></div><h3 data-i18n="roadmap5Title">Fishing combat, audio and Fishodex</h3><p data-i18n="roadmap5Body">Shotgun gameplay, combat transition, pressure and HP bars, splash and gunshot sounds, game music, bird ambience, inventory, fish textures, and Fishodex foundations.</p></article>
+          <article class="timeline-item timeline-item--bell"><div class="timeline-meta"><span>v0.5</span><span data-i18n="roadmapDate6">25-27 May 2026</span></div><h3 data-i18n="roadmap6Title">Collection, shop and content sprint</h3><p data-i18n="roadmap6Body">Collected fish now feed the inventory and Fishodex, shop selling/economy systems arrived, dollars became scales, new fish and rarities were balanced, HUD/UI/menu polish landed, playlists were added, and debug/minor issues were cleaned up.</p></article>
+          <article class="timeline-item timeline-item--current"><div class="timeline-meta"><span>v0.6</span><span data-i18n="roadmapStatusCurrent">Current</span></div><h3 data-i18n="roadmap7Title">Playable progression build</h3><p data-i18n="roadmap7Body">Current build: stabilized levels, movement, shop/server behavior, chat/Fishodex layering, and packaged everything into a cleaner playable build.</p></article>
+          <article class="timeline-item timeline-item--current"><div class="timeline-meta"><span data-i18n="roadmapReportMilestone">Report</span><span>27/05/2026</span></div><h3 data-i18n="roadmapReportFinalTitle">Final soutenance</h3><p data-i18n="roadmapReportFinalBody">Final project report for the current playable build, covering the latest content, polishing work, and delivery state.</p><a href="./assets/docs/rapport-soutenance-final.pdf" target="_blank" rel="noopener" class="document-link"><span aria-hidden="true">&#128196;</span><span data-i18n="roadmapReportFinal">Final report</span></a></article>
         </div>
       </section>
 
-      <section id="team" class="section-shell bg-[linear-gradient(180deg,rgba(255,255,255,0.86),rgba(219,242,190,0.64))] p-4 sm:p-6 md:p-8">
-        <div class="max-w-3xl">
-          <div class="leaf-badge border-leaf-200/70 bg-white/65">
-            <span aria-hidden="true" class="text-base">&#127775;</span>
-            <span data-i18n="teamEyebrow">Team</span>
-          </div>
-          <h2 class="mt-5 font-display text-3xl text-soil sm:text-4xl" data-i18n="teamTitle">Dev Team</h2>
-          <p class="mt-4 text-base font-semibold leading-relaxed text-soil/78 md:text-lg" data-i18n="teamBody">Rabbit Hole brings together a small EPITA team with complementary profiles across coordination, art direction, and development, all working on Fishotgun's strange little pond.</p>
-        </div>
-        <div class="mt-6 grid gap-4 md:grid-cols-2">
-          <article class="overflow-hidden rounded-[1.8rem] border-2 border-white/65 bg-white/75 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-card">
-            <div class="relative h-64 sm:h-72">
-              <img src="./assets/team/adrien-gayerie.png" alt="Portrait d'Adrien Gayerie" class="absolute inset-0 h-full w-full object-cover object-center transition duration-500 hover:scale-105" />
-              <div class="absolute inset-0 bg-gradient-to-t from-soil/80 via-soil/15 to-transparent"></div>
-            </div>
-            <div class="space-y-3 p-5">
-              <p class="font-display text-2xl text-soil" data-i18n="teamMember1Name">Adrien Gayerie</p>
-              <p class="text-sm font-extrabold uppercase tracking-[0.12em] text-leaf-600" data-i18n="teamMember1Role">Team lead, artist, developer</p>
-              <p class="text-sm font-semibold leading-relaxed text-soil/76" data-i18n="teamMember1Bio">Adrien plays a central role in the team, balancing coordination, visual direction, and hands-on development work across Fishotgun.</p>
-            </div>
-          </article>
-          <article class="overflow-hidden rounded-[1.8rem] border-2 border-white/65 bg-white/75 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-card">
-            <div class="relative h-64 sm:h-72">
-              <img src="./assets/team/aurelien-lamarque.png" alt="Portrait d'Aur&eacute;lien Lamarque" class="absolute inset-0 h-full w-full object-cover object-center transition duration-500 hover:scale-105" />
-              <div class="absolute inset-0 bg-gradient-to-t from-soil/80 via-soil/15 to-transparent"></div>
-            </div>
-            <div class="space-y-3 p-5">
-              <p class="font-display text-2xl text-soil" data-i18n="teamMember2Name">Aur&eacute;lien Lamarque</p>
-              <p class="text-sm font-extrabold uppercase tracking-[0.12em] text-river-600" data-i18n="teamMember2Role">Deputy lead, developer</p>
-              <p class="text-sm font-semibold leading-relaxed text-soil/76" data-i18n="teamMember2Bio">Aur&eacute;lien supports project coordination while staying deeply involved in development, helping connect production needs with technical execution.</p>
-            </div>
-          </article>
-          <article class="overflow-hidden rounded-[1.8rem] border-2 border-white/65 bg-white/75 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-card">
-            <div class="relative h-64 sm:h-72">
-              <img src="./assets/team/noah-fauvel.png" alt="Portrait de Noah Fauvel" class="absolute inset-0 h-full w-full object-cover object-center transition duration-500 hover:scale-105" />
-              <div class="absolute inset-0 bg-gradient-to-t from-soil/80 via-soil/15 to-transparent"></div>
-            </div>
-            <div class="space-y-3 p-5">
-              <p class="font-display text-2xl text-soil" data-i18n="teamMember3Name">Noah Fauvel</p>
-              <p class="text-sm font-extrabold uppercase tracking-[0.12em] text-bell-600" data-i18n="teamMember3Role">Developer</p>
-              <p class="text-sm font-semibold leading-relaxed text-soil/76" data-i18n="teamMember3Bio">Noah works on gameplay physics, player movement, camera feel, and fish AI, bringing together his interest in physics and artificial intelligence.</p>
-            </div>
-          </article>
-          <article class="overflow-hidden rounded-[1.8rem] border-2 border-white/65 bg-white/75 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-card">
-            <div class="relative h-64 sm:h-72">
-              <img src="./assets/team/joel-lipski.png" alt="Portrait de Jo&euml;l Lipski" class="absolute inset-0 h-full w-full object-cover object-center transition duration-500 hover:scale-105" />
-              <div class="absolute inset-0 bg-gradient-to-t from-soil/80 via-soil/15 to-transparent"></div>
-            </div>
-            <div class="space-y-3 p-5">
-              <p class="font-display text-2xl text-soil" data-i18n="teamMember4Name">Jo&euml;l Lipski</p>
-              <p class="text-sm font-extrabold uppercase tracking-[0.12em] text-leaf-600" data-i18n="teamMember4Role">Developer</p>
-              <p class="text-sm font-semibold leading-relaxed text-soil/76" data-i18n="teamMember4Bio">Jo&euml;l focuses on fishing systems, interface design, and multiplayer, building on experience with Luau on Roblox Studio and Python projects.</p>
-            </div>
-          </article>
+      <section id="team" class="panel panel--team">
+        <div class="badge"><span aria-hidden="true">&#127775;</span><span data-i18n="teamEyebrow">Team</span></div>
+        <h2 class="section-title" data-i18n="teamTitle">Dev Team</h2>
+        <p class="section-copy" data-i18n="teamBody">Rabbit Hole brings together a small EPITA team with complementary profiles across coordination, art direction, and development, all working on Fishotgun's strange little pond.</p>
+        <div class="team-grid">
+          <article class="member-card"><img src="./assets/team/adrien-gayerie.png" alt="Portrait d'Adrien Gayerie" /><div class="member-card__content"><h3 data-i18n="teamMember1Name">Adrien Gayerie</h3><p class="member-card__role" data-i18n="teamMember1Role">Team lead, artist, developer</p><p data-i18n="teamMember1Bio">Adrien plays a central role in the team, balancing coordination, visual direction, and hands-on development work across Fishotgun.</p></div></article>
+          <article class="member-card"><img src="./assets/team/aurelien-lamarque.png" alt="Portrait d'Aurelien Lamarque" /><div class="member-card__content"><h3 data-i18n="teamMember2Name">Aurelien Lamarque</h3><p class="member-card__role" data-i18n="teamMember2Role">Deputy lead, developer</p><p data-i18n="teamMember2Bio">Aurelien supports project coordination while staying deeply involved in development, helping connect production needs with technical execution.</p></div></article>
+          <article class="member-card"><img src="./assets/team/noah-fauvel.png" alt="Portrait de Noah Fauvel" /><div class="member-card__content"><h3 data-i18n="teamMember3Name">Noah Fauvel</h3><p class="member-card__role" data-i18n="teamMember3Role">Developer</p><p data-i18n="teamMember3Bio">Noah works on gameplay physics, player movement, camera feel, and fish AI, bringing together his interest in physics and artificial intelligence.</p></div></article>
+          <article class="member-card"><img src="./assets/team/joel-lipski.png" alt="Portrait de Joel Lipski" /><div class="member-card__content"><h3 data-i18n="teamMember4Name">Joel Lipski</h3><p class="member-card__role" data-i18n="teamMember4Role">Developer</p><p data-i18n="teamMember4Bio">Joel focuses on fishing systems, interface design, and multiplayer, building on experience with Luau on Roblox Studio and Python projects.</p></div></article>
         </div>
       </section>
     </div>
-
-    <footer id="footer" class="section-shell mt-8 bg-[linear-gradient(180deg,rgba(255,255,255,0.84),rgba(254,245,220,0.92))] px-4 py-5 sm:px-6">
-      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <p class="font-bold text-soil/68">
-          <span aria-hidden="true" class="mr-2">&#127811;</span>&copy; <span id="year"></span>
-          <span data-i18n="footerBy">Fishotgun by Rabbit Hole</span>
-        </p>
-      </div>
-    </footer>
   </main>
+
+  <footer class="site-footer">
+    <div class="container site-footer__inner"><p><span aria-hidden="true">&#127811;</span> &copy; <span id="year"></span> <span data-i18n="footerBy">Fishotgun by Rabbit Hole</span></p></div>
+  </footer>
 
   <script type="module" src="./js/main.js"></script>
 </body>
